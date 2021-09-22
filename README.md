@@ -1,15 +1,17 @@
 ## My Web Application (Title)
 
-* [General info](#general-info)
-* [Technologies](#technologies)
-* [Contents](#content)
+- [My Web Application (Title)](#my-web-application-title)
+- [General Info](#general-info)
+- [Technologies](#technologies)
+- [Content](#content)
 
 ## General Info
 This browser based web application to ...
+
 * Hi my name is Ashkan and Im in this group...
 * Hi my name is Sarah, I'm excited about this project because I want to learn!
+* Hi my name is Yoshi. I'm excited about this as well as other projects and assignments
 
-	
 ## Technologies
 Technologies used for this project:
 * HTML, CSS

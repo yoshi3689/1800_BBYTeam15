@@ -7,6 +7,8 @@
 ## General Info
 This browser based web application to ...
 * Hi my name is Ashkan and Im in this group...
+* Hi my name is Sarah, I'm excited about this project because I want to learn!
+
 	
 ## Technologies
 Technologies used for this project:

@@ -6,6 +6,7 @@
 
 ## General Info
 This browser based web application to ...
+* Hi my name is Ashkan and Im in this group...
 	
 ## Technologies
 Technologies used for this project:

@@ -24,3 +24,8 @@ body {
   justify-content: center;
   align-items: center;
 }
+
+.thumbnail-image {
+  height: 5px;
+  width: auto;
+}

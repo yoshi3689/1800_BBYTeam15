@@ -25,8 +25,8 @@
     <script src="../scripts/firebaseAPI.js"></script>
 
     <!-- Optional styles -->
-    <link type="text/css" href="../styles/main.css">
-    <link type="text/css" href="../styles/my_style.css">
+    <link type="text/css" href="styles/my_style.css">
+    <!-- <link type="text/css" href="../styles/my_style.css"> -->
 
 </head>
 
@@ -65,6 +65,14 @@
         </div>
     </nav>
 
+    <button class="btn btn-secondary m-5" id="backButton">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-backspace" viewbox="0 0 16 16">
+            <path d="M5.83 5.146a.5.5 0 0 0 0 .708L7.975 8l-2.147 2.146a.5.5 0 0 0 .707.708l2.147-2.147 2.146 2.147a.5.5 0 0 0 .707-.708L9.39 8l2.146-2.146a.5.5 0 0 0-.707-.708L8.683 7.293 6.536 5.146a.5.5 0 0 0-.707 0z"/>
+            <path d="M13.683 1a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2h-7.08a2 2 0 0 1-1.519-.698L.241 8.65a1 1 0 0 1 0-1.302L5.084 1.7A2 2 0 0 1 6.603 1h7.08zm-7.08 1a1 1 0 0 0-.76.35L1 8l4.844 5.65a1 1 0 0 0 .759.35h7.08a1 1 0 0 0 1-1V3a1 1 0 0 0-1-1h-7.08z"/>
+          </svg>
+    </button>
+    <!-- https://fonts.google.com/icons?selected=Material+Icons+Outlined:assignment_returned&icon.query=back -->
+
         <div class="avatar-container pt-5">
             <a href="javascript:;" class="">
                 <img class="mx-auto d-block w-25 img-fluid avatar avatar-s rounded-circle" alt="Image placeholder" src="https://demos.creative-tim.com/argon-dashboard-pro/assets/img/theme/team-4.jpg">
@@ -75,13 +83,16 @@
 
         <div class="mt-5 container w-75">
             <h3 class="fs-4 text-center">Today's Tips</h3>
-            <ul class="list-group w-100">
+            <ul class="list-group w-100" id="dailyTips">
                 <li class="list-group-item d-flex justify-content-between align-items-center">
                     <div class="img-thumbnail">
                         <img src="/images/walking.jpg" class="img-fluid" alt="walking"/>
                     </div>
                   <label class="form-check-label" for="flexCheckIndeterminate1" id="tip1">A first list item</label>
                   <input class="form-check-input" type="checkbox" value="" id="flexCheckIndeterminate1">
+                  <button class="btn-danger delete">
+                    delete
+                  </button>
                 </li>
                 <li class="list-group-item d-flex justify-content-between align-items-center">
                     <div class="img-thumbnail">
@@ -89,6 +100,9 @@
                     </div>
                   <label class="form-check-label" for="flexCheckIndeterminate2" id="tip2">A second list item</label>
                   <input class="form-check-input" type="checkbox" value="" id="flexCheckIndeterminate2">
+                  <button class="btn-danger delete">
+                    delete
+                  </button>
                 </li>
                 <li class="list-group-item d-flex justify-content-between align-items-center">
                     <div class="img-thumbnail">
@@ -96,6 +110,9 @@
                     </div>
                   <label class="form-check-label text-center" for="flexCheckIndeterminate3" id="tip3">A third list item</label>
                   <input class="form-check-input" type="checkbox" value="" id="flexCheckIndeterminate3">
+                  <button class="btn-danger delete">
+                    delete
+                  </button>
                 </li>
             </ul>
         </div>
@@ -117,7 +134,8 @@
         </div>
     
     <!-- Link to the api keys for your firebase project -->
-    <script src="../scripts/our_scripts/main.js"></script>
+    <script src="../scripts/universal_functions/backPage.js"></script>
+    <script src="../scripts/universal_functions/removeItem.js"></script>
 
     <script>
         function insertName() {

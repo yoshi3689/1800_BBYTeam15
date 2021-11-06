@@ -63,6 +63,8 @@
             </div>
         </div>
     </nav>
+
+
     <button class="btn btn-secondary" id="backButton">
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-backspace"
             viewbox="0 0 16 16">
@@ -82,7 +84,7 @@
     </div>
     <div class="mt-5 container" style="text-align: center;">
         <a type="button" class="btn btn-outline-info btn-sm">Friend List</a>
-        <a type="button" class="btn btn-outline-info btn-sm">History</a>
+        <a type="button" class="btn btn-outline-info btn-sm" href="progressList.html">Progress</a>
         <br />
         <br />
         <br />
@@ -124,6 +126,8 @@
         </div>
     </div>
 
+    <script src="../scripts/universal_functions/backPage.js"></script>
+    
     <script>
         function insertName() {
             firebase.auth().onAuthStateChanged(user => {

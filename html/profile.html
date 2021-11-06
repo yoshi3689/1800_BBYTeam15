@@ -23,6 +23,36 @@
     <!-- Optional styles-->
     <link type="text/css" href="../styles/profile.css">
     <link type="text/css" href="../styles/my_style.css">
+    <style>
+        body {
+            display: grid;
+            grid-template-columns: 50px 45% 45%;
+            grid-template-rows: 50px 50vh 50vh;
+        }
+
+        #profileIcon {
+            grid-column: 1 / span 2;
+            grid-row: 2 / span 1;
+        }
+
+        #pref {
+            text-align: center;
+            grid-column: 3 / span 1;
+            grid-row: 3 / span 1;
+        }
+
+        #friend {
+            text-align: center;
+            grid-column: 1 / span 2;
+            grid-row: 3 / span 1;
+        }
+
+        #progress {
+            text-align: center;
+            grid-column: 3 / span 1;
+            grid-row: 1 / span 2;
+        }
+    </style>
 </head>
 
 <body>
@@ -74,7 +104,7 @@
                 d="M13.683 1a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2h-7.08a2 2 0 0 1-1.519-.698L.241 8.65a1 1 0 0 1 0-1.302L5.084 1.7A2 2 0 0 1 6.603 1h7.08zm-7.08 1a1 1 0 0 0-.76.35L1 8l4.844 5.65a1 1 0 0 0 .759.35h7.08a1 1 0 0 0 1-1V3a1 1 0 0 0-1-1h-7.08z" />
         </svg>
     </button>
-    <div class="avatar-container pt-5">
+    <div class="avatar-container pt-5" id="profileIcon">
         <a href="javascript:;" class="">
             <img class="mx-auto d-block w-25 img-fluid avatar avatar-s rounded-circle" alt="Image placeholder"
                 src="https://demos.creative-tim.com/argon-dashboard-pro/assets/img/theme/team-4.jpg"
@@ -82,12 +112,14 @@
         </a>
         <h3 class="text-center" id="user-name_avatar">avatar</h3>
     </div>
-    <div class="mt-5 container" style="text-align: center;">
+
+    <div id="friend">
         <a type="button" class="btn btn-outline-info btn-sm">Friend List</a>
-        <a type="button" class="btn btn-outline-info btn-sm" href="progressList.html">Progress</a>
-        <br />
-        <br />
-        <br />
+    </div>
+    <div class="mt-5 container" id="progress">
+        <a type="button" class="btn btn-outline-secondary btn-sm" href="progressList.html">Progress</a>
+    </div>
+    <div id="pref">
         <h2 class="fs-4 text-center">Prefrences</h2>
         <br>
         <div class="btn-group" role="group" aria-label="Basic radio toggle button group" style="">
@@ -126,8 +158,9 @@
         </div>
     </div>
 
+
     <script src="../scripts/universal_functions/backPage.js"></script>
-    
+
     <script>
         function insertName() {
             firebase.auth().onAuthStateChanged(user => {

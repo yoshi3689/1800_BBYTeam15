@@ -26,31 +26,55 @@
     <style>
         body {
             display: grid;
-            grid-template-columns: 50px 45% 45%;
-            grid-template-rows: 50px 50vh 50vh;
+            grid-template-columns: 50% 50%;
+            grid-template-rows: 50vh 50vh;
         }
 
         #profileIcon {
             grid-column: 1 / span 2;
-            grid-row: 2 / span 1;
+            grid-row: 1 / span 1;
         }
 
         #pref {
             text-align: center;
-            grid-column: 3 / span 1;
-            grid-row: 3 / span 1;
+            grid-column: 2 / span 1;
+            grid-row: 2 / span 1;
         }
 
         #friend {
+            display: grid;
+            grid-template-columns: 100%;
+            grid-template-rows: 10% 30% 30% 30%;
             text-align: center;
-            grid-column: 1 / span 2;
+            grid-column: 1 / span 1;
+            grid-row: 2 / span 1;
+        }
+
+        #fT {
+            grid-column: 1 / span 1;
+            grid-row: 1 / span 1;
+        }
+
+        #f1 {
+            text-align: left;
+            grid-column: 1 / span 1;
+            grid-row: 2 / span 1;
+        }
+
+        #f2 {
+            text-align: left;
+            grid-column: 1 / span 1;
             grid-row: 3 / span 1;
+        }
+
+        #f3 {
+            text-align: left;
+            grid-column: 1 / span 1;
+            grid-row: 4 / span 1;
         }
 
         #progress {
             text-align: center;
-            grid-column: 3 / span 1;
-            grid-row: 1 / span 2;
         }
     </style>
 </head>
@@ -111,15 +135,50 @@
                 style="width: 100px;">
         </a>
         <h3 class="text-center" id="user-name_avatar">avatar</h3>
+        <div id="progress">
+            <a href="" class="btn btn-info w-25 text-center m-auto">Progress</a>
+            <br>
+            <a>1. last thing they did</a>
+            <br>
+            <a>2. the one before that</a>
+            <br>
+            <a>3. and finaly the last</a>
+        </div>
     </div>
 
     <div id="friend">
-        <a type="button" class="btn btn-outline-info btn-sm">Friend List</a>
+        <div id = "fT">Friend List</div>
+        <div id = "f1">
+            <img alt="Image placeholder"
+                src="https://demos.creative-tim.com/argon-dashboard-pro/assets/img/theme/team-4.jpg"
+                style="width: 15%; border-radius: 100%;">
+                <div class="progress" style = "width: 80%;">
+                    <div class="progress-bar" role="progressbar" style="width: 25%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                  </div>
+        </div>
+        <div id = "f2">
+            <img alt="Image placeholder"
+                src="https://demos.creative-tim.com/argon-dashboard-pro/assets/img/theme/team-4.jpg"
+                style="width: 15%; border-radius: 100%;">
+                <div class="progress" style = "width: 80%;">
+                    <div class="progress-bar" role="progressbar" style="width: 25%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                  </div>
+        </div>
+        <div id = "f3">
+            <img alt="Image placeholder"
+                src="https://demos.creative-tim.com/argon-dashboard-pro/assets/img/theme/team-4.jpg"
+                style="width: 15%; border-radius: 100%;">
+                <div class="progress" style = "width: 80%; text-align: right;">
+                    <div class="progress-bar" role="progressbar" style="width: 25%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                  </div>
+        </div>
+
     </div>
-    <div class="mt-5 container" id="progress">
-        <a type="button" class="btn btn-outline-secondary btn-sm" href="progressList.html">Progress</a>
-    </div>
+    
     <div id="pref">
+        <br>
+        <br>
+        <br>
         <h2 class="fs-4 text-center">Prefrences</h2>
         <br>
         <div class="btn-group" role="group" aria-label="Basic radio toggle button group" style="">

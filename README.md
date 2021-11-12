@@ -8,7 +8,7 @@
 ## General Info
 This browser based web application to ...
 
-* Hi my name is Ashkan and Im in this group...
+* Hi my name is Ashkan and I'm excited to work with this group to learn.
 * Hi my name is Sarah, I'm excited about this project because I want to learn!
 * Hi my name is Yoshi. I'm excited about this as well as other projects and assignments
 

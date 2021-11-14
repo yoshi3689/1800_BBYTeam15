@@ -58,21 +58,35 @@ function fetchMainTips() {
 }
 
 function fetchIndoorTips() {
-  // for now just fetching the tip1, 2, 3 from the database
-  // let tipListArray = Array.from(tipList.children);
-  let indoorTips;
-  // console.log(tips.doc('tip1').data().type);
+  let tipListArray = Array.from(tipList.children);
+  let indoorTips = [];
 
-  if (tips.where("type", "==", "/types/inside")) {
-    
+  // Search through all tips in database
+  // If tip's type is inside, add it to list of indoorTips
+  // randomize tips with size of indoorTips list
+  // tips.forEach(tip => {}
+  // if (tips.where("type", "==", "/types/inside")) {  }
 
-  }
+  db.collection("tips").get()
+  .then(allTips => {
+    allTips.forEach(doc => {
+
+      if (doc.data().type == "/types/inside") {
+        // console.log(indoorTips);
+        indoorTips.push(doc.data());
+      }
+    })
+  })
+  console.log("indoor tips: " + indoorTips);
 
   let numbersFetched = [];
     tipListArray.forEach((child, index) => {
-      const randomNum = Math.floor(Math.random() * 6) + 1;
+      const randomNum = Math.floor(Math.random() * indoorTips.length) + 1;
+      console.log("indoor tips list size: " + indoorTips.length);
       if (!numbersFetched.find(num => num === randomNum)) {
         numbersFetched.push(randomNum);
+        const randomTip = indoorTips[randomNum];
+        console.log("tip fetched " + randomTip);
         const tipFetched = db.collection('tips').doc(`tip${randomNum}`);
         tipFetched.get().then(collection => {
         let tipData = collection.data();

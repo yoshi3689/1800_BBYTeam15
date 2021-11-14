@@ -18,4 +18,4 @@ function fetchTips() {
   });
 }
 
-document.addEventListener('DOMContentLoaded', fetchTips())
+document.addEventListener('DOMContentLoaded', fetchTips)

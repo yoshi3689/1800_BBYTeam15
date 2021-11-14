@@ -188,123 +188,49 @@
         <br>
         <h2 class="fs-4 text-center">Preferences</h2>
         <br>
-        <div class="btn-group pref_set1" role="group" aria-label="Basic radio toggle button group" style="">
-            <input type="radio" class="btn-check" name="btnradioS1" id="btnradio1" autocomplete="off" checked>
-            <label class="btn btn-outline-primary" for="btnradio1">Anywhere</label>
+        <div class="btn-group pref_set1" role="group" aria-label="Basic radio toggle button group" >
+            <input type="radio" class="btn-check" name="btnradioS1" id="btnradio1" autocomplete="off">
+            <label class="btn btn-outline-primary" id="pref_label1" for="btnradio1">Anywhere</label>
 
             <input type="radio" class="btn-check" name="btnradioS1" id="btnradio2" autocomplete="off">
-            <label class="btn btn-outline-warning" for="btnradio2">Indoor</label>
+            <label class="btn btn-outline-warning" id="pref_label2" for="btnradio2">Indoor</label>
 
             <input type="radio" class="btn-check" name="btnradioS1" id="btnradio3" autocomplete="off">
-            <label class="btn btn-outline-success" for="btnradio3">Outdoor</label>
+            <label class="btn btn-outline-success" id="pref_label3" for="btnradio3">Outdoor</label>
         </div>
         <br>
         <br>
-        <div class="btn-group pref_set2" role="group" aria-label="Basic radio toggle button group" style="">
-            <input type="radio" class="btn-check" name="btnradioS2" id="btnradio4" autocomplete="off" checked>
-            <label class="btn btn-outline-primary" for="btnradio4">Both</label>
+        <div class="btn-group pref_set2" role="group" aria-label="Basic radio toggle button group" >
+            <input type="radio" class="btn-check" name="btnradioS2" id="btnradio4" autocomplete="off">
+            <label class="btn btn-outline-primary" id="pref_label4" for="btnradio4">Both</label>
 
             <input type="radio" class="btn-check" name="btnradioS2" id="btnradio5" autocomplete="off">
-            <label class="btn btn-outline-warning" for="btnradio5">Physical</label>
+            <label class="btn btn-outline-warning" id="pref_label5" for="btnradio5">Physical</label>
 
             <input type="radio" class="btn-check" name="btnradioS2" id="btnradio6" autocomplete="off">
-            <label class="btn btn-outline-success" for="btnradio6">Mental</label>
+            <label class="btn btn-outline-success" id="pref_label6" for="btnradio6">Mental</label>
         </div>
         <br>
         <br>
-        <div class="btn-group pref_set3" role="group" aria-label="Basic radio toggle button group" style="">
-            <input type="radio" class="btn-check" name="btnradioS3" id="btnradio7" autocomplete="off" checked>
-            <label class="btn btn-outline-primary" for="btnradio7">Under 5 min</label>
+        <div class="btn-group pref_set3" role="group" aria-label="Basic radio toggle button group" >
+            <input type="radio" class="btn-check" name="btnradioS3" id="btnradio7" autocomplete="off">
+            <label class="btn btn-outline-primary" id="pref_label7" for="btnradio7">Under 5 min</label>
 
             <input type="radio" class="btn-check" name="btnradioS3" id="btnradio8" autocomplete="off">
-            <label class="btn btn-outline-warning" for="btnradio8">Under 15 min</label>
+            <label class="btn btn-outline-warning" id="pref_label8" for="btnradio8">Under 15 min</label>
 
             <input type="radio" class="btn-check" name="btnradioS3" id="btnradio9" autocomplete="off">
-            <label class="btn btn-outline-danger" for="btnradio9">Under 30 min</label>
+            <label class="btn btn-outline-danger"  id="pref_label9" for="btnradio9">Under 30 min</label>
         </div>
     </div>
 
     <script src="../scripts/our_scripts/profile.js"></script>
     <script src="../scripts/universal_functions/backPage.js"></script>
-    <script src="../scripts/universal_functions/fetchTipsMain.js"></script>
-    <script src="../scripts/universal_functions/removeItem.js"></script>
+    <!-- <script src="../scripts/universal_functions/fetchTipsMain.js"></script>
+    <script src="../scripts/universal_functions/removeItem.js"></script> -->
 
 
     <script>
-        const prefList = document.getElementById('pref');
-        let preferencesToUpdate = ['Anywhere', 'Both', 'Under 5 min'];
-        var user_Name;
-        var user_Email
-// let currentUser = db.collection("users").doc(user.uid);
-        function insertName() {
-            firebase.auth().onAuthStateChanged(user => {
-                // Check if user is signed in:
-                if (user) {
-                    // Do something for the current logged-in user here: 
-                    console.log(user.uid);
-                    user_ID = user.uid;
-                    //go to the correct user document by referencing to the user uid
-                    currentUser = db.collection("users").doc(user.uid);
-                    //get the document for current user.
-                    currentUser.get()
-                        .then(userDoc => {
-                            user_Name = userDoc.data().name;
-                            user_Email = userDoc.data().email;
-                            console.log(user_Name);
-                            //method #1:  insert with html only
-                            document.getElementById("user-name_avatar").innerText = user_Name;
-                                //using javascript
-                        })
-                } else {
-                    console.log("you did not sign in");
-                    // No user is signed in.
-                }
-                // return [user_Name, user_Email];
-            });
-        }
-        insertName();
-
-const fetchPrefText = (e) => {
-  console.log(e);
-  if (e.target.tagName == "LABEL") {
-    const parent = e.target.parentNode;
-      const preferenceToAdd = e.target.innerText;
-      if (parent.classList.contains('pref_set1')) {
-        preferencesToUpdate[0] = preferenceToAdd;
-      }
-      if (parent.classList.contains('pref_set2')) {
-        preferencesToUpdate[1] = preferenceToAdd;
-      }
-      if (parent.classList.contains('pref_set3')) {
-        preferencesToUpdate[2] = preferenceToAdd;
-      } 
-      savePreference();
-    //   console.log(preferencesToUpdate);
-    }
-}
-
-function savePreference() {
-  currentUser.get()
-    .then(userDoc => {
-      console.log(userDoc.data());
-    })
-    if (user_Name && user_Email) {
-        currentUser.update({
-                  name: user_Name,
-                  email: user_Email,
-                  personalPref: preferencesToUpdate
-              })
-              .then(() => {
-                  console.log("Document successfully updated!");
-              })
-    }
-}
-
-
-
-        var user_ID;
-        
-        prefList.addEventListener('click',fetchPrefText);
         
     </script>
     <!--------------------------------------------------------------------->

@@ -60,29 +60,25 @@ function fetchMainTips() {
 function fetchIndoorTips() {
   let tipListArray = Array.from(tipList.children);
   let indoorTips = [];
-
   // Search through all tips in database
-  // If tip's type is inside, add it to list of indoorTips
-  // randomize tips with size of indoorTips list
-  // tips.forEach(tip => {}
-  // if (tips.where("type", "==", "/types/inside")) {  }
-
   db.collection("tips").get()
   .then(allTips => {
     allTips.forEach(doc => {
-
+      // If tip's type is inside, add it to list of indoorTips
       if (doc.data().type == "/types/inside") {
         // console.log(indoorTips);
+        console.log(doc.data());
         indoorTips.push(doc.data());
       }
     })
   })
   console.log("indoor tips: " + indoorTips);
+  console.log("indoor tips list size: " + indoorTips.length);
 
   let numbersFetched = [];
     tipListArray.forEach((child, index) => {
+       // randomize tips with size of indoorTips list
       const randomNum = Math.floor(Math.random() * indoorTips.length) + 1;
-      console.log("indoor tips list size: " + indoorTips.length);
       if (!numbersFetched.find(num => num === randomNum)) {
         numbersFetched.push(randomNum);
         const randomTip = indoorTips[randomNum];

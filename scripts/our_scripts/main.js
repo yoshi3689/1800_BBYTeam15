@@ -99,7 +99,9 @@ function fetchIndoorTips() {
     let numbersFetched = [];
     tipListArray.forEach((child, index) => {
        // randomize tips with size of indoorTips list
-      const randomNum = Math.floor(Math.random() * (indoorTips.length - 1)) + 0;
+      const randomNum = Math.floor(Math.random() * indoorTips.length) + 1;
+      console.log("random: " + randomNum);
+
       if (!numbersFetched.find(num => num === randomNum)) {
         numbersFetched.push(randomNum);
         const randomTip = indoorTips[randomNum];
@@ -109,25 +111,20 @@ function fetchIndoorTips() {
         .then(allTips => {
           allTips.forEach(doc => {
 
-            if (indoorTips[randomNum] == doc.data().id) {
-
-              const tipFetched = db.collection('tips').doc(`tip${randomNum}`);
+            if (indoorTips[randomNum - 1] == doc.data().id) {
+              const tipFetched = db.collection('tips').doc(`tip${indoorTips[randomNum - 1]}`);
               // const tipFetched = randomTip;
               tipFetched.get().then(collection => {
               let tipData = collection.data();
               document.getElementById(`tip${index + 1}`).innerHTML = tipData.name;
-              console.log(randomNum)
             });
             }
-
           })
         })
 
       }
   });
-
   })
- 
 }
 
 function fetchOutdoorTips() {

@@ -19,8 +19,9 @@ const transferTip = e => {
 }
 
 tipList.addEventListener('click', transferTip);
+document.addEventListener('DOMContentLoaded', fetchPersonalTips);
 
-const tipList = document.getElementById('dailyTips');
+// const tipList = document.getElementById('dailyTips');
 let currentUser;
 let userData;
 let tips = db.collection('tips');
@@ -205,6 +206,6 @@ function fetch30MinTips() {
 
 // document.addEventListener('DOMContentLoaded', fetchMainTips)
 
-document.addEventListener('DOMContentLoaded', fetchPersonalTips)
+
 
 // const userName_ava = document.getElementById('user-name_avatar');

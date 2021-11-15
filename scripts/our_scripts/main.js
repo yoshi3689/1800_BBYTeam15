@@ -1,9 +1,8 @@
-console.log('connected')
 const tipList = document.getElementById('dailyTips');
 const storage = window.localStorage;
 
 
-console.log(document.referrer)
+
 
 const transferTip = e => {
   if (e.target.innerHTML.includes('<')) {
@@ -20,7 +19,6 @@ const transferTip = e => {
 
 tipList.addEventListener('click', transferTip);
 
-const tipList = document.getElementById('dailyTips');
 let currentUser;
 let userData;
 let tips = db.collection('tips');

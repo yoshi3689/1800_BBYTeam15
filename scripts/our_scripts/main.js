@@ -88,30 +88,46 @@ function fetchIndoorTips() {
       // If tip's type is inside, add it to list of indoorTips
       if (doc.data().type == "/types/inside") {
         // console.log(indoorTips);
-        console.log(doc.data());
-        indoorTips.push(doc.data());
+        // console.log(doc.data().name);
+        indoorTips.push(doc.data().id);
+        // console.log("indoor tips loop: " + indoorTips);
       }
     })
-  })
-  console.log("indoor tips: " + indoorTips);
-  console.log("indoor tips list size: " + indoorTips.length);
+    console.log("indoor tips: " + indoorTips);
+    console.log("indoor tips list size: " + indoorTips.length);
 
-  let numbersFetched = [];
+    let numbersFetched = [];
     tipListArray.forEach((child, index) => {
        // randomize tips with size of indoorTips list
-      const randomNum = Math.floor(Math.random() * indoorTips.length) + 1;
+      const randomNum = Math.floor(Math.random() * (indoorTips.length - 1)) + 0;
       if (!numbersFetched.find(num => num === randomNum)) {
         numbersFetched.push(randomNum);
         const randomTip = indoorTips[randomNum];
         console.log("tip fetched " + randomTip);
-        const tipFetched = db.collection('tips').doc(`tip${randomNum}`);
-        tipFetched.get().then(collection => {
-        let tipData = collection.data();
-        document.getElementById(`tip${index + 1}`).innerHTML = tipData.name;
-        console.log(randomNum)
-        });
+
+        db.collection("tips").get()
+        .then(allTips => {
+          allTips.forEach(doc => {
+
+            if (indoorTips[randomNum] == doc.data().id) {
+
+              const tipFetched = db.collection('tips').doc(`tip${randomNum}`);
+              // const tipFetched = randomTip;
+              tipFetched.get().then(collection => {
+              let tipData = collection.data();
+              document.getElementById(`tip${index + 1}`).innerHTML = tipData.name;
+              console.log(randomNum)
+            });
+            }
+
+          })
+        })
+
       }
   });
+
+  })
+ 
 }
 
 function fetchOutdoorTips() {

@@ -104,7 +104,7 @@
                         <input type="checkbox" value="">
                         <label style="font-weight: bold;">Email</label>
                         <br>
-                        <input id="emailInput" type="text" value="ahhh.boo@my.bcit.ca"><br>
+                        <input id="emailInput" type="text" placeholder="ahhh.boo@my.bcit.ca"><br>
                     </li>
 
                 </ul>
@@ -114,7 +114,7 @@
                         <input type="checkbox" value="">
                         <label style="font-weight: bold;">SMS</label>
                         <br>
-                        <input id="phoneInput" type="text" value="250-420-6969"><br>
+                        <input id="phoneInput" type="text" placeholder="250-420-6969"><br>
                     </li>
 
                 </ul>
@@ -127,19 +127,20 @@
     <script src="../scripts/universal_functions/backPage.js"></script>
     <script>
         var currentUser;
-    function populateInfo() {
+    
+        function populateInfo() {
             firebase.auth().onAuthStateChanged(user => {
                 // Check if user is signed in:
                 if (user) {
                 currentUser = db.collection("users").doc(user.uid)
 
                 currentUser.get()
-                    .then(user => {
-                        var userPhone = userDoc.date().phone;
-                        var userEmail = userDoc.date().email;
+                    .then(userDoc => {
+                        var userPhone = userDoc.data().phone;
+                        var userEmail = userDoc.data().email;
 
                         if (userPhone != null) {
-                            document.getElementById("nameInput").value = userPhone;
+                            document.getElementById("phoneInput").value = userPhone;
                         }
                         if (userEmail != null) {
                             document.getElementById("emailInput").value = userEmail;
@@ -152,10 +153,12 @@
         })
     }
     populateInfo();
+
         function editUserInfo() {
             //Enable the form fields
             document.getElementById('personalInfoFields').disabled = false;
         }
+        
         function saveUserInfo() {
     userPhone = document.getElementById('phoneInput').value;       
     //get the value of the field with id="nameInput"

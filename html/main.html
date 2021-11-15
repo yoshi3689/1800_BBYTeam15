@@ -134,36 +134,38 @@
         </div>
     
     <!-- Link to the api keys for your firebase project -->
+    <script src="../scripts/our_scripts/main.js"></script>
     <script src="../scripts/universal_functions/backPage.js"></script>
     <script src="../scripts/universal_functions/fetchTipsMain.js"></script>
     <script src="../scripts/universal_functions/removeItem.js"></script>
     <script src="../scripts/universal_functions/completeTip.js"></script>
+    
 
     <script>
         function insertName() {
 
-            firebase.auth().onAuthStateChanged(user => {
-                // Check if user is signed in:
-                if (user) {                                                                 
-                    // Do something for the current logged-in user here: 
-                    console.log(user.uid);
-                    //go to the correct user document by referencing to the user uid
-                    currentUser = db.collection("users").doc(user.uid);
-                    //get the document for current user.
-                    currentUser.get()
-                        .then(userDoc => {
-                    var user_Name = userDoc.data().name;
-                    console.log(user_Name);
-                    //method #1:  insert with html only
-                    document.getElementById("user-name_avatar").innerText = user_Name;    //using javascript
-                    })
-                } else {
-                    console.log("you did not sign in");
-                    // No user is signed in.
-                }
-            });
-        }
-        insertName();
+firebase.auth().onAuthStateChanged(user => {
+    // Check if user is signed in:
+    if (user) {                                                                 
+        // Do something for the current logged-in user here: 
+        console.log(user.uid);
+        //go to the correct user document by referencing to the user uid
+        currentUser = db.collection("users").doc(user.uid);
+        //get the document for current user.
+        currentUser.get()
+            .then(userDoc => {
+        var user_Name = userDoc.data().name;
+        console.log(user_Name);
+        //method #1:  insert with html only
+        document.getElementById("user-name_avatar").innerText = user_Name;    //using javascript
+        })
+    } else {
+        console.log("you did not sign in");
+        // No user is signed in.
+    }
+});
+}
+insertName();
     </script>
     <!--------------------------------------------------------------------->
     <!-- JS files: Your own JavaScript functions included here    -->

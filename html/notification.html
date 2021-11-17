@@ -3,18 +3,31 @@
 
 <head>
     <meta charset="utf-8">
-    <title>My BCIT Project</title>
-    <meta name="comp1800 boilerplate code" content="Notification">
-    <meta name="author" content="BCIT">
+    <title>Homepage</title>
+    <meta name="comp1800 boilerplate code" content="my bcit project" />
+    <meta name="author" content="BCIT" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
 
     <!-- Bootstrap, firebase-auth-ui -->
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
-    <link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/4.6.1/firebase-ui-auth.css" />
+    <link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/4.8.1/firebase-ui-auth.css" />
 
-    <!-- Optional styles and scripts of your own -->
-    <link type="text/css" href="./styles/my_style.css">
+    <!-- Firebase 8 CDNs-->
+    <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/ui/4.8.1/firebase-ui-auth.js"></script>
+
+
+    <!-- Link to the api keys for your firebase project -->
+    <script src="../scripts/firebaseAPI.js"></script>
+
+    <!-- Optional styles -->
+    <link type="text/css" href="styles/my_style.css" rel="stylesheet">
+    <!-- <link type="text/css" href="../styles/my_style.css"> -->
+
 </head>
 
 <body>
@@ -56,10 +69,13 @@
         </div>
     </nav>
     <button class="btn btn-secondary" id="backButton">
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-backspace" viewbox="0 0 16 16">
-            <path d="M5.83 5.146a.5.5 0 0 0 0 .708L7.975 8l-2.147 2.146a.5.5 0 0 0 .707.708l2.147-2.147 2.146 2.147a.5.5 0 0 0 .707-.708L9.39 8l2.146-2.146a.5.5 0 0 0-.707-.708L8.683 7.293 6.536 5.146a.5.5 0 0 0-.707 0z"/>
-            <path d="M13.683 1a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2h-7.08a2 2 0 0 1-1.519-.698L.241 8.65a1 1 0 0 1 0-1.302L5.084 1.7A2 2 0 0 1 6.603 1h7.08zm-7.08 1a1 1 0 0 0-.76.35L1 8l4.844 5.65a1 1 0 0 0 .759.35h7.08a1 1 0 0 0 1-1V3a1 1 0 0 0-1-1h-7.08z"/>
-          </svg>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-backspace"
+            viewbox="0 0 16 16">
+            <path
+                d="M5.83 5.146a.5.5 0 0 0 0 .708L7.975 8l-2.147 2.146a.5.5 0 0 0 .707.708l2.147-2.147 2.146 2.147a.5.5 0 0 0 .707-.708L9.39 8l2.146-2.146a.5.5 0 0 0-.707-.708L8.683 7.293 6.536 5.146a.5.5 0 0 0-.707 0z" />
+            <path
+                d="M13.683 1a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2h-7.08a2 2 0 0 1-1.519-.698L.241 8.65a1 1 0 0 1 0-1.302L5.084 1.7A2 2 0 0 1 6.603 1h7.08zm-7.08 1a1 1 0 0 0-.76.35L1 8l4.844 5.65a1 1 0 0 0 .759.35h7.08a1 1 0 0 0 1-1V3a1 1 0 0 0-1-1h-7.08z" />
+        </svg>
     </button>
     <div class="mt-5 container">
         <div class="mt-5 container w-70">
@@ -67,43 +83,99 @@
             <br>
             <br>
             <br>
-            <ul class="list-group w-100">
-                <li class="list-group-item justify-content-between">
-                    <input type="checkbox" value="">
-                  <label style="font-weight: bold;">pop-up notification</label>
-                  <br>
-                  <input type="checkbox" value="">
-                  <label>Vibrate</label>
-                  <br>
-                  <input type="checkbox" value="">
-                  <label>Silent</label>
-                </li>
+            <fieldset class="mb-3" id="personalInfoFields" disabled>
+                <ul class="list-group w-100">
 
-            </ul>
-            <br><br>
-            <ul class="list-group w-100">
-                <li class="list-group-item justify-content-between">
-                    <input type="checkbox" value="">
-                  <label style="font-weight: bold;">Email</label>
-                  <br>
-                  <input type="text" value="ahhh.boo@my.bcit.ca"><br>
-                </li>
+                    <li class="list-group-item justify-content-between">
+                        <input type="checkbox" value="">
+                        <label style="font-weight: bold;">pop-up notification</label>
+                        <br>
+                        <input type="checkbox" value="">
+                        <label>Vibrate</label>
+                        <br>
+                        <input type="checkbox" value="">
+                        <label>Silent</label>
+                    </li>
 
-            </ul>
-            <br><br>
-            <ul class="list-group w-100">
-                <li class="list-group-item justify-content-between">
-                    <input type="checkbox" value="">
-                  <label style="font-weight: bold;">SMS</label>
-                  <br>
-                  <input type="text" value="250-420-6969"><br>
-                </li>
+                </ul>
+                <br><br>
+                <ul class="list-group w-100">
+                    <li class="list-group-item justify-content-between">
+                        <input type="checkbox" value="">
+                        <label style="font-weight: bold;">Email</label>
+                        <br>
+                        <input id="emailInput" type="text" placeholder="ahhh.boo@my.bcit.ca"><br>
+                    </li>
 
-            </ul>
+                </ul>
+                <br><br>
+                <ul class="list-group w-100">
+                    <li class="list-group-item justify-content-between">
+                        <input type="checkbox" value="">
+                        <label style="font-weight: bold;">SMS</label>
+                        <br>
+                        <input id="phoneInput" type="text" placeholder="250-420-6969"><br>
+                    </li>
+
+                </ul>
+            </fieldset>
+            <button onclick="editUserInfo()">Edit</button>
+            <button type="button" class="btn btn-info" onclick="saveUserInfo()">Save</button>
         </div>
     </div>
 
     <script src="../scripts/universal_functions/backPage.js"></script>
+    <script>
+        var currentUser;
     
+        function populateInfo() {
+            firebase.auth().onAuthStateChanged(user => {
+                // Check if user is signed in:
+                if (user) {
+                currentUser = db.collection("users").doc(user.uid)
+
+                currentUser.get()
+                    .then(userDoc => {
+                        var userPhone = userDoc.data().phone;
+                        var userEmail = userDoc.data().email;
+
+                        if (userPhone != null) {
+                            document.getElementById("phoneInput").value = userPhone;
+                        }
+                        if (userEmail != null) {
+                            document.getElementById("emailInput").value = userEmail;
+                        }
+                    })
+            } else {
+                // No user is signed in.
+                console.log("No user is signed in");
+            }
+        })
+    }
+    populateInfo();
+
+        function editUserInfo() {
+            //Enable the form fields
+            document.getElementById('personalInfoFields').disabled = false;
+        }
+        
+        function saveUserInfo() {
+    userPhone = document.getElementById('phoneInput').value;       
+    //get the value of the field with id="nameInput"
+    userEmail = document.getElementById('emailInput').value;
+
+    currentUser.update({
+                    email: userEmail,
+                    phone: userPhone,
+                })
+                .then(() => {
+                    console.log("Document successfully updated!");
+                })
+                
+    document.getElementById('personalInfoFields').disabled = true;
+}
+
+    </script>
 </body>
+
 </html>

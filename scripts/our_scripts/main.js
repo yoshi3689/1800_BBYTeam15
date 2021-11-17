@@ -85,9 +85,8 @@ function fetchIndoorTips() {
     allTips.forEach(doc => {
       // If tip's type is inside, add it to list of indoorTips
       if (doc.data().type == "/types/inside") {
-        // console.log(indoorTips);
-        console.log(doc.data());
-        indoorTips.push(doc.data());
+        console.log(doc.data().name);
+        indoorTips.push(doc.data().name);
       }
     })
   })

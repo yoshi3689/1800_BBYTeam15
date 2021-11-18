@@ -1,7 +1,110 @@
 const tipList = document.getElementById('dailyTips');
 const storage = window.localStorage;
+// let generalTipArr = [];
+let tipArrToDisplay = [];
 
-console.log(document.referrer)
+const collection = 'tips';
+
+// const mental = '/categories/mentalHealth'
+// const physical = '/categories/physicalHealth'
+// const recipes = '/categories/recipes'
+
+// const inside = '/types/inside'
+// const outside = '/types/outside'
+
+// what do i need? 
+// 1.create an array to store tips to display l=3
+// 2.fetch all the tips and add them to an array () l=8
+// 3.extract a specific type of tips and add them to another array () l=x
+// 4.generate a random number using the length of the type specific array () rand=x.length
+// 5.prevent the random number from being duplicated
+// 6.iterate through the array from no.1
+
+// what haven't I done yet?
+// 1. insert a new href value to the parent of each tip name
+// 2. filtering 
+
+function fetchPersonalTips() {
+  // for now just fetching the tip1, 2, 3 from the database
+  firebase.auth().onAuthStateChanged(user => {
+          // Checks if user is signed in
+          if (user) {
+
+              currentUser = db
+                  .collection("users")
+                  .doc(user.uid);
+                  
+              currentUser
+                  .get()
+                  .then(userDoc => {
+                      userData = userDoc.data();
+                      // console.log(userData.personalPref);
+                      fetchAllTips((arr) => {
+                        getFromGeneral(arr, null ,insertTips)
+                      });
+
+                      // if (userData.personalPref[0] == "Anywhere" && userData.personalPref[1] == "Both" && userData.personalPref[2] == "Under 5 min") {
+                      //     // fetchAllTips();
+                          
+                      // } 
+                      
+                      // else if (userData.personalPref[0] == "Indoor") {
+                      //     fetchIndoorTips();
+                      // } else if (userData.personalPref[0] == "Outdoor") {
+                      //     fetchOutdoorTips();
+                      // } else if (userData.personalPref[1] == "Physical") {
+                      //     fetchPhysicalTips();
+                      // } else if (userData.personalPref[1] == "Mental") {
+                      //     fetchMentalTips();
+                      // } else if (userData.personalPref[2] == "Under 15 min") {
+                      //     fetch15MinTips();
+                      // } else if (userData.personalPref[2] == "Under 30 min") {
+                      //     fetch30MinTips();
+                      // }
+
+                  })
+
+                  
+          }
+      })
+}
+
+// based on the tip array passed as an argument, it assigns a randomized tip to the array to display
+function getThreeRandomizedTips(tipArr) {
+  let randomNumRecords = [];
+  let i = 0;
+  while(i !== 3) {
+    const randomNum = Math.floor(Math.random() * (tipArr.length));
+      tipArr.forEach((tip, index) => {
+      // if the random num matches with an index in the array..
+      if (index === randomNum && !randomNumRecords.find(numToCheck => numToCheck === randomNum)) {
+        console.log(tip.name);
+        // add the item to the array to display
+        tipArrToDisplay.push(tip);
+        // the counter increments only when the above condition is met
+        i++;
+      }
+    })
+    randomNumRecords.push(randomNum);
+  }
+}
+
+// insert each item in the array into the corresponding label element
+function insertTips(arrToDisplay) {
+  arrToDisplay.forEach((tip, index) => {
+    console.log(tip.id);
+    const eachTip = document.getElementById(`tip${index + 1}`);
+    eachTip.innerText = tip.name;
+    console.log(tip.docId);
+
+    // we have to figure out a way to reference the parent element of each tip name element
+    // in HTML so that we can add a link to the parent(a tag). This enables the user to navigate to the 
+    // details of the specific tip
+
+    // eachTip.parentElement.href = "details.html?collection="+collection+"?id=" + docId;
+  })
+}
+
 
 const transferTip = e => {
     if (e.target.innerHTML.includes('<')) {
@@ -28,65 +131,88 @@ let currentUser;
 let userData;
 let tips = db.collection('tips');
 
-function fetchPersonalTips() {
-    // for now just fetching the tip1, 2, 3 from the database
 
-    firebase
-        .auth()
-        .onAuthStateChanged(user => {
-            // Checks if user is signed in
-            if (user) {
-                currentUser = db
-                    .collection("users")
-                    .doc(user.uid);
-                currentUser
-                    .get()
-                    .then(userDoc => {
-                        userData = userDoc.data();
-                        console.log(userData.personalPref);
-                        if (userData.personalPref[0] == "Anywhere" && userData.personalPref[1] == "Both" && userData.personalPref[2] == "Under 5 min") {
-                            fetchMainTips();
-                        } else if (userData.personalPref[0] == "Indoor") {
-                            fetchIndoorTips();
-                        } else if (userData.personalPref[0] == "Outdoor") {
-                            fetchOutdoorTips();
-                        } else if (userData.personalPref[1] == "Physical") {
-                            fetchPhysicalTips();
-                        } else if (userData.personalPref[1] == "Mental") {
-                            fetchMentalTips();
-                        } else if (userData.personalPref[2] == "Under 15 min") {
-                            fetch15MinTips();
-                        } else if (userData.personalPref[2] == "Under 30 min") {
-                            fetch30MinTips();
-                        }
 
-                    })
-            }
-        })
+function fetchAllTips(callback) {
+  let generalTipArr = [];
+    db.collection("tips").get().then(allTips => {
+      allTips.forEach(doc => {
+        console.log(doc.data());
+        const name = doc.data().name;
+        const id = doc.data().id;
+        const docId = doc.id;
+        const categories = doc.data().categories;
+        const type = doc.data().type.path;
+        const time = doc.data().time.path;
+        // this part might change as we add an image to each tip doc on firebase
+        // we'll figure out how to do that
+        const image = doc.data().image;
+
+        // populating the general tip list with all the tips 
+        generalTipArr.push({name, id, categories, type, time, image, docId});
+      })
+      generalTipArr.forEach(tip => {
+        console.log(`tip ${tip.id} ${tip}`);
+      })
+
+      // make sure that fetchAllTIps is called after the generalTipArr is populated
+      // by the below line of code
+      callback(generalTipArr);
+    })
+
+    // let tipListArray = Array.from(tipList.children);
+    // let numbersFetched = [];
+    // tipListArray.forEach((child, index) => {
+    //     const randomNum = Math.floor(Math.random() * 6) + 1;
+    //     if (!numbersFetched.find(num => num === randomNum)) {
+    //         numbersFetched.push(randomNum);
+    //         const tipFetched = db
+    //             .collection('tips')
+    //             .doc(`tip${randomNum}`);
+    //         tipFetched
+    //             .get()
+    //             .then(collection => {
+    //                 let tipData = collection.data();
+    //                 document
+    //                     .getElementById(`tip${index + 1}`)
+    //                     .innerHTML = tipData.name;
+    //                 console.log(randomNum)
+    //             });
+    //     }
+    // });
 }
 
-function fetchMainTips() {
-    // for now just fetching the tip1, 2, 3 from the database
-    let tipListArray = Array.from(tipList.children);
-    let numbersFetched = [];
-    tipListArray.forEach((child, index) => {
-        const randomNum = Math.floor(Math.random() * 6) + 1;
-        if (!numbersFetched.find(num => num === randomNum)) {
-            numbersFetched.push(randomNum);
-            const tipFetched = db
-                .collection('tips')
-                .doc(`tip${randomNum}`);
-            tipFetched
-                .get()
-                .then(collection => {
-                    let tipData = collection.data();
-                    document
-                        .getElementById(`tip${index + 1}`)
-                        .innerHTML = tipData.name;
-                    console.log(randomNum)
-                });
-        }
-    });
+// creates an array of tips based on the user's preferences
+function sortByPreference(tipArr) {
+
+}
+
+// get three random tips from the general tip list
+// before this function is invoked, all the tips are assigned to an array
+// so that you can loop through them without making an API call to the database
+function getFromGeneral(tipArr, preference ,callback) {
+  console.log("getgeneral working");
+  // in this case, from 0 to 7 so that the numbers match with each index of the array
+  if (!preference) {
+    getThreeRandomizedTips(tipArr);
+  } else {
+      db.collection("tips").get()
+        .then(allTips => {
+          allTips.forEach(doc => {
+            // we can customize how to combine the conditions below
+            // 1. we set both the type and categories to an array and loop through it
+            //    to check
+            //    (1) if only the value of the categories matches 
+            //    (2) if only the value of the 
+            if (doc.data().type == preference) {
+              console.log(doc.data().name);
+              indoorTips.push(doc.data().name);
+              // getThreeRandomizedTips(tipArr);
+            }
+          })
+        })
+      }
+      callback(tipArrToDisplay);
 }
 
 function fetchIndoorTips() {
@@ -105,8 +231,8 @@ function fetchIndoorTips() {
   })
   console.log("indoor tips: " + indoorTips);
   console.log("indoor tips list size: " + indoorTips.length);
-    let tipListArray = Array.from(tipList.children);
-    let indoorTips = [];
+    // let tipListArray = Array.from(tipList.children);
+    // let indoorTips = [];
     let numbersFetched = [];
     // Search through all tips in database
     db
@@ -287,5 +413,5 @@ function fetch30MinTips() {
     });
 }
 
-// document.addEventListener('DOMContentLoaded', fetchMainTips) const
+// document.addEventListener('DOMContentLoaded', fetchAllTips) const
 // userName_ava = document.getElementById('user-name_avatar');

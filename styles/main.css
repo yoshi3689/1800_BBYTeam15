@@ -4,7 +4,7 @@ html {
 
 body {
   width: 100%;
-  background-image: url(../images/pexels-loc-dang-1905054.jpg);
+  background-image: url(../images/background.jpg);
   background-size: cover;
   background-repeat: no-repeat;
   background-size: 100% 100%;
@@ -31,17 +31,28 @@ body {
 .thumbnail-image {
   height: 5px;
   width: auto;
+  min-width: 80px;
+  min-height: 80px; 
 }
 
 .wrapper {
-  padding-right: 20%;
+  /* padding-right: 20%; */
   color: black;
   text-decoration: none;
 }
 
 .label {
-  margin-left: 8rem;
+  margin-left: 3vw;
+  /* justify-self: center; */
   margin-bottom: 0;
+}
+
+.btn-space {
+  padding-right: 10px;
+}
+
+.btn-size {
+  padding: 5px 12px;
 }
 /* .flex-wrapper {
   marg

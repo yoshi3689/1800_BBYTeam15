@@ -1,9 +1,19 @@
 body {
-  display: grid;
-  grid-template-columns: 50% 50%;
-  grid-template-rows: 50vh 50vh;
+  /* display: grid; */
+  /* grid-template-columns: 50% 50%;
+  grid-template-rows: 50vh 50vh; */
+  width: 100%;
+  background-image: url(../images/pexels-loc-dang-1905054.jpg);
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-size: 100% 100vh;
 }
 
+label:hover {
+  background-color: white;
+}
+
+/* 
 #profileIcon {
   grid-column: 1 / span 2;
   grid-row: 1 / span 1;
@@ -49,4 +59,4 @@ body {
 
 #progress {
   text-align: center;
-}
+} */

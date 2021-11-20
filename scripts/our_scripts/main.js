@@ -17,26 +17,17 @@ const collection = 'tips';
 // 2. filtering 
 
 function fetchPersonalTips() {
-  // for now just fetching the tip1, 2, 3 from the database
   firebase.auth().onAuthStateChanged(user => {
-          // Checks if user is signed in
           if (user) {
-
-              currentUser = db
-                  .collection("users")
-                  .doc(user.uid);
-                  
-              currentUser
-                  .get()
-                  .then(userDoc => {
-                      userPref = userDoc.data().personalPref;
-                      console.log(userPref);
-                      fetchAllTips((arr) => {
-                        getFromGeneral(arr, userPref ,insertTips)
-                      });
-                  })
+              let currentUser = db.collection("users").doc(user.uid);
+              currentUser.get().then(userDoc => {
+                userPref = userDoc.data().personalPref;
+                fetchAllTips((arr) => {
+                  getFromGeneral(arr, userPref ,insertTips);
+                });
+              });
           }
-      })
+      });
 }
 
 // based on the tip array passed as an argument, it assigns a randomized tip to the array to display
@@ -59,7 +50,7 @@ function getThreeRandomizedTips(tipArr) {
   }
 }
 
-// insert each item in the array into the corresponding label element
+// insert each item in the array into each corresponding label element
 function insertTips(arrToDisplay) {
   arrToDisplay.forEach((tip, index) => {
     console.log(tip.id);
@@ -97,7 +88,7 @@ tipList.addEventListener('click', transferTip);
 document.addEventListener('DOMContentLoaded', fetchPersonalTips);
 
 // const tipList = document.getElementById('dailyTips');
-let currentUser;
+// let currentUser;
 let userData;
 let tips = db.collection('tips');
 
@@ -139,54 +130,56 @@ function fetchAllTips(callback) {
 
 // before this function is invoked, all the tips are assigned to an array
 // so that you can loop through them without making an API call to the database
-function getFromGeneral(tipArr, preferences ,callback) {
-  // console.log("getgeneral working");
+function getFromGeneral(tipArr, preferences, callback) {
   // in this case, from 0 to 7 so that the numbers match with each index of the array
-
-  // console.log(preferences);
-  // console.log(tipArr);
-  if (preferences[0] == "Anywhere" && preferences[1] == "Both" && preferences[2] == "Under 5 min") {
+  if (preferences[0] == "Anywhere" && preferences[1] == "Both") {
     getThreeRandomizedTips(tipArr);
-  } else {
+  } 
+  else {
     let typeStringUser = preferences[0].toLowerCase();
-      let categoriesStringUser = preferences[1].toLowerCase();
-      let timeStringUser = preferences[2].replace("Under ", "") + preferences[2].replace(" min", "");
+    let categoriesStringUser = preferences[1].toLowerCase();
+    let withoutUnder = preferences[2].replace("Under ", "");
+    let timeStringUser = withoutUnder.replace(" min", "");
     let sortedTipArr = [];
+
+    // console.log(tipArr[0].categories, tipArr[0].type, tipArr[0].time)
+
     tipArr.forEach((tip) => {
       let typeString = tip.type;
       let categoriesString = tip.categories;
       let timeString = tip.time;
-  
-      
 
       // either the types is set to anywhere(indooor or outdoor) or the categories is set to Both(physical or mental)
-      if (preferences[0] === "Anywhere" || preferences[1] === "Both") {
         // when only the categories can be ignored
         if (preferences[0] === "Anywhere" || preferences[1] !== "Both") {
           if (timeString === timeStringUser && categoriesString === categoriesStringUser) {
             sortedTipArr.push(tip);
           }
+
           // when only the type can be ignored
         } else if (preferences[0] !== "Anywhere" || preferences[1] === "Both") {
           if (timeString === timeStringUser && typeString === typeStringUser) {
             sortedTipArr.push(tip);
           }
-        }
-      } else {
+        } 
+        else {
         // only when all the three preferences match with those of a tip...
         if (timeString === timeStringUser && categoriesString === categoriesStringUser 
           && typeString === typeStringUser) {
+            sortedTipArr.push(tip);
+          }
+      }
+      
+    })
+    console.log(sortedTipArr);
+    getThreeRandomizedTips(sortedTipArr);
 
+                // console.log(timeString, timeStringUser);
             // console.log(timeString === timeStringUser && categoriesString === categoriesStringUser 
             // && typeString === typeStringUser);
             // console.log("tip-info:" + timeString, "user-pref:" + timeStringUser);
             // console.log("tip-info:" + categoriesString, "user-pref:" + categoriesStringUser);
             // console.log("tip-info:" + typeString, "user-pref:" + categoriesStringUser);
-            sortedTipArr.push(tip);
-          }
-      }
-      getThreeRandomizedTips(sortedTipArr);
-    })
   }
   callback(tipArrToDisplay);
 }

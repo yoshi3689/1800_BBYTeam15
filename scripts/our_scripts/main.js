@@ -4,22 +4,11 @@ let tipArrToDisplay = [];
 
 const collection = 'tips';
 
-// what do i need? 
-// 1.create an array to store tips to display l=3
-// 2.fetch all the tips and add them to an array () l=8
-// 3.extract a specific type of tips and add them to another array () l=x
-// 4.generate a random number using the length of the type specific array () rand=x.length
-// 5.prevent the random number from being duplicated
-// 6.iterate through the array from no.1
-
-// what haven't I done yet?
-// 1. insert a new href value to the parent of each tip name
-// 2. filtering 
-
 function fetchPersonalTips() {
   firebase.auth().onAuthStateChanged(user => {
           if (user) {
               let currentUser = db.collection("users").doc(user.uid);
+
               currentUser.get().then(userDoc => {
                 userPref = userDoc.data().personalPref;
                 fetchAllTips((arr) => {
@@ -39,7 +28,6 @@ function getThreeRandomizedTips(tipArr) {
       tipArr.forEach((tip, index) => {
       // if the random num matches with an index in the array..
       if (index === randomNum && !randomNumRecords.find(numToCheck => numToCheck === randomNum)) {
-        console.log(tip.name);
         // add the item to the array to display
         tipArrToDisplay.push(tip);
         // the counter increments only when the above condition is met
@@ -53,42 +41,34 @@ function getThreeRandomizedTips(tipArr) {
 // insert each item in the array into each corresponding label element
 function insertTips(arrToDisplay) {
   arrToDisplay.forEach((tip, index) => {
-    console.log(tip.id);
+    // console.log(tip.id);
     const eachTip = document.getElementById(`tip${index + 1}`);
     eachTip.innerText = tip.name;
-    console.log(tip.docId);
-
-    // we have to figure out a way to reference the parent element of each tip name element
-    // in HTML so that we can add a link to the parent(a tag). This enables the user to navigate to the 
-    // details of the specific tip
-
-    // eachTip.parentElement.href = "details.html?collection="+collection+"?id=" + docId;
+    // console.log(tip.docId);
   })
 }
 
-
-const transferTip = e => {
-    if (e.target.innerHTML.includes('<')) {
-        const tipId = e
-            .target
-            .children
-            .item(1)
-            .id;
-        console.log(tipId);
-        // if the tip is not stored in the local storage, it creates a new tip key in
-        // there
-        if (storage.getItem(tipId) == null) {
-            storage.setItem(tipId, tipId);
-            console.log(tipId + " stored successfully");
-        }
-    }
-
-}
-tipList.addEventListener('click', transferTip);
+// send the details of the tip clicked to the page he user is navigating to
+// const transferTip = e => {
+//     if (e.target.innerHTML.includes('<')) {
+//         const tipId = e
+//             .target
+//             .children
+//             .item(1)
+//             .id;
+//         console.log(tipId);
+//         // if the tip is not stored in the local storage, it creates a new tip key in
+//         // there
+//         if (storage.getItem(tipId) == null) {
+//             storage.setItem(tipId, tipId);
+//             console.log(tipId + " stored successfully");
+// eachTip.parentElement.href = "details.html?collection="+collection+"?id=" + docId;
+//         }
+//     }
+// }
+// tipList.addEventListener('click', transferTip);
 document.addEventListener('DOMContentLoaded', fetchPersonalTips);
 
-// const tipList = document.getElementById('dailyTips');
-// let currentUser;
 let userData;
 let tips = db.collection('tips');
 
@@ -120,13 +100,6 @@ function fetchAllTips(callback) {
       callback(generalTipArr);
     })
 }
-        // const name = doc.data().name;
-        // const id = doc.data().id;
-        // const docId = doc.id;
-        // const categories = doc.data().categories;
-        // const type = doc.data().type.path;
-        // const time = doc.data().time.path;
-        // const image = doc.data().image;
 
 // before this function is invoked, all the tips are assigned to an array
 // so that you can loop through them without making an API call to the database
@@ -169,17 +142,13 @@ function getFromGeneral(tipArr, preferences, callback) {
             sortedTipArr.push(tip);
           }
       }
-      
     })
     console.log(sortedTipArr);
-    getThreeRandomizedTips(sortedTipArr);
-
-                // console.log(timeString, timeStringUser);
-            // console.log(timeString === timeStringUser && categoriesString === categoriesStringUser 
-            // && typeString === typeStringUser);
-            // console.log("tip-info:" + timeString, "user-pref:" + timeStringUser);
-            // console.log("tip-info:" + categoriesString, "user-pref:" + categoriesStringUser);
-            // console.log("tip-info:" + typeString, "user-pref:" + categoriesStringUser);
+    if (sortedTipArr.length < 3) {
+      insertTips(sortedTipArr);
+    } else {
+      getThreeRandomizedTips(sortedTipArr);
+    }
   }
   callback(tipArrToDisplay);
 }

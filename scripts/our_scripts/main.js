@@ -62,18 +62,11 @@ function savePersonalTips(tipArrDisplaying) {
     });
 
     currentUser.update({
-      // email: currentUserInfo.email,
-      // name: currentUserInfo.name,
-      // personalPref: currentUserInfo.personalPref,
       personalTips: tipIds,
     });
   } else {
     console.log("you already have personal tips");
   }
-
-
-  // console.log(tipIds, currentUser);
-  // currentUser.get
 }
 
 // based on the tip array passed as an argument, it assigns a randomized tip to the array to display
@@ -100,13 +93,17 @@ function insertTips(arrToDisplay) {
   arrToDisplay.forEach((tip, index) => {
     // console.log(tip.id);
     const eachTip = document.getElementById(`tip${index + 1}`);
-    // anchor tag: eachTip.parentElement.parentElement
+   
     console.log(eachTip.previousElementSibling);
     eachTip.classList.add(tip.id);
     eachTip.innerText = tip.name;
-    // element.setAttribute
+
+    // setting a new href for each tip being displayed
+    // anchor tag: eachTip.parentElement.parentElement
+    let hrefToSet = "details.html?collection=tips&id=" + tip.docId;
+    eachTip.parentElement.parentElement.setAttribute("href", hrefToSet);
+
     // https://developer.mozilla.org/en-US/docs/Web/API/Element/setAttribute
-    console.log(tip.image);
     eachTip.previousElementSibling.setAttribute('src', "/" + tip.image);
     // console.log(tip.docId);
   })

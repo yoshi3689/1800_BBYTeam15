@@ -1,7 +1,4 @@
-// const dailyTips = document.getElementById('dailyTips');
-
 dailyTips.addEventListener("click", completeTip);
-
 
 function completeTip(event) {
   if (event.target.classList.contains("complete") || event.target.parentNode.classList.contains("complete")) {
@@ -22,19 +19,11 @@ function addToProgress(tipId) {
   console.log('tip ' + tipId + " is finished!");
   if (!currentUserInfo.progressList) {
     currentUser.update({
-      // do i always have to add the other fields like below?
-      // email: currentUserInfo.email,
-      // name: currentUserInfo.name,
-      // personalPref: currentUserInfo.personalPref,
       progressList: [tipId]
     });
   } else {
     console.log("you already have progressList list so we'll add the one you finished to it");
     currentUser.update({
-      // do i always have to add the other fields?
-      // email: currentUserInfo.email,
-      // name: currentUserInfo.name,
-      // personalPref: currentUserInfo.personalPref,
       progressList: currentUser.progressList.push(tipId)
     });
   } 

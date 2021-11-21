@@ -1,31 +1,88 @@
 const tipList = document.getElementById('dailyTips');
 const storage = window.localStorage;
 let tipArrToDisplay = [];
-
+const dailyTips = document.getElementById('dailyTips');
 const collection = 'tips';
 
-function fetchPersonalTips() {
-  firebase.auth().onAuthStateChanged(user => {
-          if (user) {
-              let currentUser = db.collection("users").doc(user.uid);
+let currentUser;
+let currentUserInfo;
 
-              currentUser.get().then(userDoc => {
-                userPref = userDoc.data().personalPref;
-                fetchAllTips((arr) => {
-                  getFromGeneral(arr, userPref ,insertTips);
+function fetchTips() {
+  firebase.auth().onAuthStateChanged(user => {
+    if (user) {
+      currentUser = db.collection("users").doc(user.uid);
+      currentUser.get().then(userDoc => {
+        currentUserInfo = userDoc.data();
+
+        // if the user already has personal tips...
+        if (currentUserInfo.personalTips) {
+          // fetch tips using only the personalTipNums
+          db.collection("tips").get().then(allTips => {
+            allTips.forEach(doc => {
+              const tip = doc.data();
+              const id = tip.id;
+              if (currentUserInfo.personalTips.find(personalTipNum => personalTipNum === id)) {
+                const name = tip.name;
+                const docId = doc.id;
+                const categories = tip.categories.id;
+                const type = tip.type.id;
+                const time = tip.time.id;
+                const image = tip.image;
+
+                tipArrToDisplay.push({
+                  name,
+                  id,
+                  categories,
+                  type,
+                  time,
+                  image,
+                  docId
                 });
-              });
-          }
+              }
+            })
+            insertTips(tipArrToDisplay);
+          })
+        } else {
+          userPref = userDoc.data().personalPref;
+          fetchAllTips((arr) => {
+            getFromGeneral(arr, userPref, insertTips);
+          });
+        }
+
       });
+    }
+  });
+}
+
+function savePersonalTips(tipArrDisplaying) {
+  console.log(currentUserInfo)
+  if (!currentUserInfo.personalTips) {
+    const tipIds = tipArrDisplaying.map(tip => {
+      return tip.id;
+    });
+
+    currentUser.update({
+      // email: currentUserInfo.email,
+      // name: currentUserInfo.name,
+      // personalPref: currentUserInfo.personalPref,
+      personalTips: tipIds,
+    });
+  } else {
+    console.log("you already have personal tips");
+  }
+
+
+  // console.log(tipIds, currentUser);
+  // currentUser.get
 }
 
 // based on the tip array passed as an argument, it assigns a randomized tip to the array to display
 function getThreeRandomizedTips(tipArr) {
   let randomNumRecords = [];
   let i = 0;
-  while(i !== 3) {
+  while (i !== 3) {
     const randomNum = Math.floor(Math.random() * (tipArr.length));
-      tipArr.forEach((tip, index) => {
+    tipArr.forEach((tip, index) => {
       // if the random num matches with an index in the array..
       if (index === randomNum && !randomNumRecords.find(numToCheck => numToCheck === randomNum)) {
         // add the item to the array to display
@@ -43,9 +100,17 @@ function insertTips(arrToDisplay) {
   arrToDisplay.forEach((tip, index) => {
     // console.log(tip.id);
     const eachTip = document.getElementById(`tip${index + 1}`);
+    // anchor tag: eachTip.parentElement.parentElement
+    console.log(eachTip.previousElementSibling);
+    eachTip.classList.add(tip.id);
     eachTip.innerText = tip.name;
+    // element.setAttribute
+    // https://developer.mozilla.org/en-US/docs/Web/API/Element/setAttribute
+    console.log(tip.image);
+    eachTip.previousElementSibling.setAttribute('src', "/" + tip.image);
     // console.log(tip.docId);
   })
+  savePersonalTips(arrToDisplay);
 }
 
 // send the details of the tip clicked to the page he user is navigating to
@@ -67,38 +132,45 @@ function insertTips(arrToDisplay) {
 //     }
 // }
 // tipList.addEventListener('click', transferTip);
-document.addEventListener('DOMContentLoaded', fetchPersonalTips);
+document.addEventListener('DOMContentLoaded', fetchTips);
 
 let userData;
 let tips = db.collection('tips');
 
 function fetchAllTips(callback) {
   let generalTipArr = [];
-    db.collection("tips").get().then(allTips => {
-      allTips.forEach(doc => {
+  db.collection("tips").get().then(allTips => {
+    allTips.forEach(doc => {
+      const tip = doc.data();
+      const id = tip.id;
+      const name = tip.name;
+      const docId = doc.id;
+      const categories = tip.categories.id;
+      const type = tip.type.id;
+      const time = tip.time.id;
+      const image = tip.image;
 
-        // console.log(doc.data().categories.id);
-        const name = doc.data().name;
-        const id = doc.data().id;
-        const docId = doc.id;
-        const categories = doc.data().categories.id;
-        const type = doc.data().type.id;
-        const time = doc.data().time.id;
-        // this part might change as we add an image to each tip doc on firebase
-        // we'll figure out how to do that
-        const image = doc.data().image;
-
-        // populating the general tip list with all the tips 
-        generalTipArr.push({name, id, categories, type, time, image, docId});
-      })
-      generalTipArr.forEach(tip => {
-        console.log(`tip ${tip.id} ${tip}`);
-      })
-
-      // make sure that fetchAllTIps is called after the generalTipArr is populated
-      // by the below line of code
-      callback(generalTipArr);
+      // populating the general tip list with all the tips 
+      generalTipArr.push({
+        name,
+        id,
+        categories,
+        type,
+        time,
+        image,
+        docId
+      });
     })
+
+    // checking which tip was fetched
+    // generalTipArr.forEach(tip => {
+    //   console.log(`tip ${tip.id} ${tip}`);
+    // })
+
+    // make sure that fetchAllTIps is called after the generalTipArr is populated
+    // by the below line of code
+    callback(generalTipArr);
+  })
 }
 
 // before this function is invoked, all the tips are assigned to an array
@@ -107,8 +179,7 @@ function getFromGeneral(tipArr, preferences, callback) {
   // in this case, from 0 to 7 so that the numbers match with each index of the array
   if (preferences[0] == "Anywhere" && preferences[1] == "Both") {
     getThreeRandomizedTips(tipArr);
-  } 
-  else {
+  } else {
     let typeStringUser = preferences[0].toLowerCase();
     let categoriesStringUser = preferences[1].toLowerCase();
     let withoutUnder = preferences[2].replace("Under ", "");
@@ -123,58 +194,57 @@ function getFromGeneral(tipArr, preferences, callback) {
       let timeString = tip.time;
 
       // either the types is set to anywhere(indooor or outdoor) or the categories is set to Both(physical or mental)
-        // when only the categories can be ignored
-        if (preferences[0] === "Anywhere" || preferences[1] !== "Both") {
-          if (timeString === timeStringUser && categoriesString === categoriesStringUser) {
-            sortedTipArr.push(tip);
-          }
+      // when only the categories can be ignored
+      if (preferences[0] === "Anywhere" || preferences[1] !== "Both") {
+        if (timeString === timeStringUser && categoriesString === categoriesStringUser) {
+          sortedTipArr.push(tip);
+        }
 
-          // when only the type can be ignored
-        } else if (preferences[0] !== "Anywhere" || preferences[1] === "Both") {
-          if (timeString === timeStringUser && typeString === typeStringUser) {
-            sortedTipArr.push(tip);
-          }
-        } 
-        else {
+        // when only the type can be ignored
+      } else if (preferences[0] !== "Anywhere" || preferences[1] === "Both") {
+        if (timeString === timeStringUser && typeString === typeStringUser) {
+          sortedTipArr.push(tip);
+        }
+      } else {
         // only when all the three preferences match with those of a tip...
-        if (timeString === timeStringUser && categoriesString === categoriesStringUser 
-          && typeString === typeStringUser) {
-            sortedTipArr.push(tip);
-          }
+        if (timeString === timeStringUser && categoriesString === categoriesStringUser &&
+          typeString === typeStringUser) {
+          sortedTipArr.push(tip);
+        }
       }
     })
     console.log(sortedTipArr);
-    if (sortedTipArr.length < 3) {
-      insertTips(sortedTipArr);
-    } else {
+    if (sortedTipArr.length >= 3) {
       getThreeRandomizedTips(sortedTipArr);
     }
   }
+
+  // insertTips
   callback(tipArrToDisplay);
 }
 
 
 
-    // let tipListArray = Array.from(tipList.children);
-    // let numbersFetched = [];
-    // tipListArray.forEach((child, index) => {
-    //     const randomNum = Math.floor(Math.random() * 6) + 1;
-    //     if (!numbersFetched.find(num => num === randomNum)) {
-    //         numbersFetched.push(randomNum);
-    //         const tipFetched = db
-    //             .collection('tips')
-    //             .doc(`tip${randomNum}`);
-    //         tipFetched
-    //             .get()
-    //             .then(collection => {
-    //                 let tipData = collection.data();
-    //                 document
-    //                     .getElementById(`tip${index + 1}`)
-    //                     .innerHTML = tipData.name;
-    //                 console.log(randomNum)
-    //             });
-    //     }
-    // });
+// let tipListArray = Array.from(tipList.children);
+// let numbersFetched = [];
+// tipListArray.forEach((child, index) => {
+//     const randomNum = Math.floor(Math.random() * 6) + 1;
+//     if (!numbersFetched.find(num => num === randomNum)) {
+//         numbersFetched.push(randomNum);
+//         const tipFetched = db
+//             .collection('tips')
+//             .doc(`tip${randomNum}`);
+//         tipFetched
+//             .get()
+//             .then(collection => {
+//                 let tipData = collection.data();
+//                 document
+//                     .getElementById(`tip${index + 1}`)
+//                     .innerHTML = tipData.name;
+//                 console.log(randomNum)
+//             });
+//     }
+// });
 
 // function fetchIndoorTips() {
 //   let tipListArray = Array.from(tipList.children);
@@ -224,7 +294,7 @@ function getFromGeneral(tipArr, preferences, callback) {
 //         getTips(indoorTips, randomNum, index);
 //     })
 
-    
+
 //     // });
 // }
 // // 1. an array of tips with a certain type
@@ -248,7 +318,7 @@ function getFromGeneral(tipArr, preferences, callback) {
 //       })
 // // if random number matches tip's id in database, display that tip on homepage
 //         // (x3)
-      
+
 //       // console.log("random number list: " + numbersFetched);
 
 //   })

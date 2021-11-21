@@ -4,28 +4,48 @@ dailyTips.addEventListener("click", completeTip);
 
 
 function completeTip(event) {
-  // if (document.getElementById("flexCheckIndeterminate1").checked = true) {
-  if (event.target.classList.contains("check")) {
+  if (event.target.classList.contains("complete") || event.target.parentNode.classList.contains("complete")) {
+    // working
     if (window.confirm("Did you complete this tip?")) {
-      let li = event.target.parentNode;
-      addToProgress();
+      let li = event.target.parentNode.parentNode.parentNode.classList.contains("list-group-item") 
+      ? event.target.parentNode.parentNode.parentNode
+      : event.target.parentNode.parentNode.parentNode.parentNode;
       dailyTips.removeChild(li);
-
+      console.log(li.getElementsByClassName('label').tip1.classList[1]);
+      addToProgress(li.getElementsByClassName('label').tip1.classList[1]);
     }
+    
   };
 }
 
-function addToProgress() {
-
-  console.log(dailyTips);
-  let currentTip = document.getElementById('tip1').innerText;
+function addToProgress(tipId) {
+  console.log('tip ' + tipId + " is finished!");
+  if (!currentUserInfo.progressList) {
+    currentUser.update({
+      // do i always have to add the other fields like below?
+      // email: currentUserInfo.email,
+      // name: currentUserInfo.name,
+      // personalPref: currentUserInfo.personalPref,
+      progressList: [tipId]
+    });
+  } else {
+    console.log("you already have progressList list so we'll add the one you finished to it");
+    currentUser.update({
+      // do i always have to add the other fields?
+      // email: currentUserInfo.email,
+      // name: currentUserInfo.name,
+      // personalPref: currentUserInfo.personalPref,
+      progressList: currentUser.progressList.push(tipId)
+    });
+  } 
+  // let currentTip = document.getElementById('tip1').innerText;
 
   // let currentTip = document.getElementById('tip1').innerText;
-  console.log(currentTip); 
+  // console.log(currentTip); 
 
-  searchForTip();
+  // searchForTip();
 
-  let progressList = db.collection("progress");
+  // let progressList = db.collection("progress");
 
   // let tip1 = db.collection('tips').doc('tip1').data().name;
 

@@ -1,0 +1,23 @@
+.time {
+  display: grid;
+  grid-template-rows: auto;
+  grid-template-columns: 10px 30px 10px;
+  justify-content: center;
+}
+
+#time {
+  grid-row: 1 / 2;
+  grid-column: 1 / 2;
+  justify-self: right;
+}
+
+#tipTime {
+  grid-row: 1 / 2;
+  grid-column: 2 / 3;
+}
+
+#minutes {
+  grid-row: 1 / 2;
+  grid-column: 3 / 4;
+  justify-self: left;
+}

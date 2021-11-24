@@ -21,28 +21,29 @@ const fetchUser = () => {
     if (user) {
       // console.log(user.uid);
       user_ID = user.uid;
+
+      // assigns a specific user doc to this variable
       currentUser = db.collection("users").doc(user.uid);
-      currentUser.get()
-        .then(userDoc => {
-          userData = userDoc.data();
-          insertUserInfo()
-        })
+      currentUser.onSnapshot(userDoc => {
+        userData = userDoc.data();
+        insertUserInfo();
+        console.log(userData);
+      });
     } else {
       console.log("you did not sign in");
     }
   });
 }
-fetchUser()
+fetchUser();
 
 const savePreference = (pref) => {
   if (userData) {
+    // currentUser = db.collection("users").doc(user.uid)
     currentUser.update({
-        name: userData.name,
-        email: userData.email,
         personalPref: pref
       })
       .then((a) => {
-        console.log("Document successfully updated! " + a);
+        console.log("Document successfully updated! " + pref);
       })
   }
 }

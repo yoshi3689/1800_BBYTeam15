@@ -2,6 +2,28 @@ html {
   min-height: 100%;
 }
 
+
+.bg-info {
+  background-color: #00b4d8 !important;
+}
+
+.btn-info:hover {
+  color: #0dcaf0;
+  border-color: white;
+  background-color: white;
+}
+
+.navbar-light .navbar-nav .show > .nav-link,
+.navbar-light .navbar-nav .nav-link.active {
+  color: rgba(0, 0, 0, 0.9);
+  font-weight: bold;
+}
+
+.nav-link:hover, .nav-link:focus {
+  color: black;
+  font-weight: bold;
+}
+
 body {
   width: 100%;
   background-image: url(../images/background.jpg);

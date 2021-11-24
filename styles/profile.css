@@ -13,50 +13,45 @@ label:hover {
   background-color: white;
 }
 
-/* 
-#profileIcon {
-  grid-column: 1 / span 2;
-  grid-row: 1 / span 1;
+.bg-info {
+  background-color: #00b4d8 !important;
 }
 
-#pref {
-  text-align: center;
-  grid-column: 2 / span 1;
-  grid-row: 2 / span 1;
+.btn-info {
+  color: #000;
+  background-color: #0dcaf0;
+  border-color: #0dcaf0;
 }
 
-#friend {
-  display: grid;
-  grid-template-columns: 100%;
-  grid-template-rows: 10% 30% 30% 30%;
-  text-align: left;
-  grid-column: 1 / span 1;
-  grid-row: 2 / span 1;
+.btn-info:hover {
+  color: #00b4d8;
+  background-color: white;
+  border-color: white;
 }
 
-#fT {
-  grid-column: 1 / span 1;
-  grid-row: 1 / span 1;
+.btn-outline-light {
+  color: #f8f9fa;
+  border-color: #f8f9fa;
 }
 
-#f1 {
-  text-align: left;
-  grid-column: 1 / span 1;
-  grid-row: 2 / span 1;
+.btn-check:checked + .btn-outline-light, .btn-check:active + .btn-outline-light, .btn-outline-light:active, .btn-outline-light.active, .btn-outline-light.dropdown-toggle.show {
+  color: #000;
+  background-color: #0dcaf0;
+  border-color: #0dcaf0;
 }
 
-#f2 {
-  text-align: left;
-  grid-column: 1 / span 1;
-  grid-row: 3 / span 1;
+.btn-outline-light:hover {
+  color: #0dcaf0;
 }
 
-#f3 {
-  text-align: left;
-  grid-column: 1 / span 1;
-  grid-row: 4 / span 1;
+.nav-link:hover, .nav-link:focus {
+  color: black;
+  font-weight: bold;
 }
 
-#progress {
-  text-align: center;
-} */
+.navbar-light .navbar-nav .show > .nav-link,
+.navbar-light .navbar-nav .nav-link.active {
+  color: rgba(0, 0, 0, 0.9);
+  font-weight: bold;
+}
+

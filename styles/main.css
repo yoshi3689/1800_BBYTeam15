@@ -58,6 +58,10 @@ body {
   marg
 } */
 .thumbnail-image{
+<<<<<<< HEAD
   border: 2px solid #5bc0de;
+=======
+  /* border: 2px solid #5bc0de; */
+>>>>>>> 70c55bd77125476ea0f39befd2cba35b80d70a62
   width: 100px;
 }

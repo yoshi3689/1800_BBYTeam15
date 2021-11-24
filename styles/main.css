@@ -24,6 +24,22 @@ html {
   font-weight: bold;
 }
 
+.text-small {
+  color: #0dcaf0;
+}
+
+.progress-bar {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  overflow: hidden;
+  color: #fff;
+  text-align: center;
+  white-space: nowrap;
+  background-color: #0dcaf0;
+  transition: width 0.6s ease;
+}
+
 body {
   width: 100%;
   background-image: url(../images/background.jpg);
@@ -51,10 +67,8 @@ body {
 }
 
 .thumbnail-image {
-  height: 5px;
-  width: auto;
-  min-width: 80px;
-  min-height: 80px; 
+  width: 100px;
+  height: 100px;
 }
 
 .wrapper {
@@ -79,11 +93,4 @@ body {
 /* .flex-wrapper {
   marg
 } */
-.thumbnail-image{
-<<<<<<< HEAD
-  border: 2px solid #5bc0de;
-=======
-  /* border: 2px solid #5bc0de; */
->>>>>>> 70c55bd77125476ea0f39befd2cba35b80d70a62
-  width: 100px;
-}
+

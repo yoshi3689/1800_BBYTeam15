@@ -1,9 +1,9 @@
-const tipList = document.getElementById('dailyTips');
+// const tipList = document.getElementById('dailyTips');
 const storage = window.localStorage;
-let tipArrToDisplay = [];
 const dailyTips = document.getElementById('dailyTips');
 const collection = 'tips';
 
+let sortedTipArr = [];
 let currentUser;
 let currentUserInfo;
 
@@ -11,13 +11,17 @@ function fetchTips() {
   firebase.auth().onAuthStateChanged(user => {
     if (user) {
       currentUser = db.collection("users").doc(user.uid);
-      currentUser.get().then(userDoc => {
+      
+      currentUser.onSnapshot(userDoc => {
         currentUserInfo = userDoc.data();
-
-        // if the user already has personal tips...
-        if (currentUserInfo.personalTips) {
+        console.log(currentUserInfo.personalTips)
+        // if the user already has personal tips and the length of the array is not 0
+        if (currentUserInfo.personalTips && currentUserInfo.personalTips.length != 0) {
+          let tipArrToDisplay = [];
           // fetch tips using only the personalTipNums
           db.collection("tips").get().then(allTips => {
+            console.log(allTips);
+            // if there's any tip to display, run the forEach
             allTips.forEach(doc => {
               const tip = doc.data();
               const id = tip.id;
@@ -40,23 +44,33 @@ function fetchTips() {
                 });
               }
             })
+            // asks the user if they want to get moe tips or not
+            // console.log("no tip to show at the moment");
+
             insertTips(tipArrToDisplay);
           })
         } else {
-          userPref = userDoc.data().personalPref;
-          fetchAllTips((arr) => {
-            getFromGeneral(arr, userPref, insertTips);
-          });
+            console.log("no tip to show now");
+          if (window.confirm("Do you want more tips??")) {
+              userPref = userDoc.data().personalPref;
+              fetchAllTips((arr) => {
+              getFromGeneral(arr, userPref, insertTips);
+            });
+          }
         }
-
-      });
+      })
     }
   });
 }
-
+// the below should work 
+// when the length is 0
+// console.log(currentUserInfo.personalTips, tip.id, "  ");
+// currentUser.update({
+//   personalTips: [...currentUserInfo.personalTips, tip.id]
+// });
 function savePersonalTips(tipArrDisplaying) {
   console.log(currentUserInfo)
-  if (!currentUserInfo.personalTips) {
+  if (!currentUserInfo.personalTips || currentUserInfo.personalTips.length == 0) {
     const tipIds = tipArrDisplaying.map(tip => {
       return tip.id;
     });
@@ -78,9 +92,8 @@ function getThreeRandomizedTips(tipArr) {
     tipArr.forEach((tip, index) => {
       // if the random num matches with an index in the array..
       if (index === randomNum && !randomNumRecords.find(numToCheck => numToCheck === randomNum)) {
-        // add the item to the array to display
-        tipArrToDisplay.push(tip);
-        // the counter increments only when the above condition is met
+
+        // hfaglbal have to fix
         i++;
       }
     })
@@ -90,45 +103,55 @@ function getThreeRandomizedTips(tipArr) {
 
 // insert each item in the array into each corresponding label element
 function insertTips(arrToDisplay) {
+  // clear everything from the list first
+  console.log(arrToDisplay);
+  dailyTips.innerHTML = "";
   arrToDisplay.forEach((tip, index) => {
     // console.log(tip.id);
-    const eachTip = document.getElementById(`tip${index + 1}`);
-   
-    console.log(eachTip.previousElementSibling);
-    eachTip.classList.add(tip.id);
-    eachTip.innerText = tip.name;
+    const newTip = document.createElement("li");
+    newTip.setAttribute("class", "list-group-item d-flex justify-content-between align-items-center");
+    newTip.setAttribute("id", `tip${index + 1}`)
+
+    // console.log(eachTip.previousElementSibling);
+    // eachTip.classList.add(tip.id);
+    // eachTip.innerText = tip.name;
 
     // setting a new href for each tip being displayed
     // anchor tag: eachTip.parentElement.parentElement
     let hrefToSet = "details.html?collection=tips&id=" + tip.docId;
-    eachTip.parentElement.parentElement.setAttribute("href", hrefToSet);
+    // eachTip.parentElement.parentElement.setAttribute("href", hrefToSet);
 
     // https://developer.mozilla.org/en-US/docs/Web/API/Element/setAttribute
-    eachTip.previousElementSibling.setAttribute('src', "/" + tip.image);
+    let srcToSet = "/" + tip.image;
+    // eachTip.previousElementSibling.setAttribute("src", "/" + tip.image);
     // console.log(tip.docId);
+    newTip.innerHTML = `
+                <a href="${hrefToSet}" class="d-block wrapper">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <img src="${srcToSet}" class="thumbnail-image" alt="walking" />
+                        <p class="label ${tip.id}" id="tip1">${tip.name}</p>
+                    </div>
+                </a>
+                <div class="d-flex align-items-center">
+                    <div class="btn-space">
+                        <button type="button" class="btn btn-success btn-sm complete">
+                            <svg xmlns="http://www.w3.org/2000/svg" style="color:white" width="20" height="20"
+                                fill="currentColor" class="bi bi-check-lg" viewbox="0 0 16 16">
+                                <path
+                                    d="M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425a.247.247 0 0 1 .02-.022Z" />
+                            </svg>
+                        </button>
+                    </div>
+                    <button type="button" class="btn btn-danger delete btn-sm btn-size">𝗫</button>
+                </div>
+    `
+    dailyTips.appendChild(newTip);
   })
   savePersonalTips(arrToDisplay);
 }
 
-// send the details of the tip clicked to the page he user is navigating to
-// const transferTip = e => {
-//     if (e.target.innerHTML.includes('<')) {
-//         const tipId = e
-//             .target
-//             .children
-//             .item(1)
-//             .id;
-//         console.log(tipId);
-//         // if the tip is not stored in the local storage, it creates a new tip key in
-//         // there
-//         if (storage.getItem(tipId) == null) {
-//             storage.setItem(tipId, tipId);
-//             console.log(tipId + " stored successfully");
-// eachTip.parentElement.href = "details.html?collection="+collection+"?id=" + docId;
-//         }
-//     }
-// }
-// tipList.addEventListener('click', transferTip);
+// fill up the 
+
 document.addEventListener('DOMContentLoaded', fetchTips);
 
 let userData;
@@ -173,6 +196,7 @@ function fetchAllTips(callback) {
 // before this function is invoked, all the tips are assigned to an array
 // so that you can loop through them without making an API call to the database
 function getFromGeneral(tipArr, preferences, callback) {
+  //for some reason, nothing is added to sortedTipArr;
   // in this case, from 0 to 7 so that the numbers match with each index of the array
   if (preferences[0] == "Anywhere" && preferences[1] == "Both") {
     getThreeRandomizedTips(tipArr);
@@ -180,20 +204,25 @@ function getFromGeneral(tipArr, preferences, callback) {
     let typeStringUser = preferences[0].toLowerCase();
     let categoriesStringUser = preferences[1].toLowerCase();
     let withoutUnder = preferences[2].replace("Under ", "");
-    let timeStringUser = withoutUnder.replace(" min", "");
-    let sortedTipArr = [];
+    let timeStringUser = withoutUnder.replace(" Minutes", "");
 
+    
     // console.log(tipArr[0].categories, tipArr[0].type, tipArr[0].time)
 
     tipArr.forEach((tip) => {
       let typeString = tip.type;
       let categoriesString = tip.categories;
       let timeString = tip.time;
-
+      // console.log(typeStringUser, categoriesStringUser, withoutUnder, typeString, categoriesString);
+      
       // either the types is set to anywhere(indooor or outdoor) or the categories is set to Both(physical or mental)
       // when only the categories can be ignored
+      // console.log(preferences[0] === "Anywhere" || preferences[1] !== "Both");
       if (preferences[0] === "Anywhere" || preferences[1] !== "Both") {
+        // console.log(timeString === timeStringUser && categoriesString === categoriesStringUser);
+        console.log(timeString, "  " ,timeStringUser,"  " , categoriesString,"  " , withoutUnder, "  " ,categoriesStringUser);
         if (timeString === timeStringUser && categoriesString === categoriesStringUser) {
+          console.log(sortedTipArr);
           sortedTipArr.push(tip);
         }
 
@@ -210,14 +239,15 @@ function getFromGeneral(tipArr, preferences, callback) {
         }
       }
     })
-    console.log(sortedTipArr);
-    if (sortedTipArr.length >= 3) {
+    // console.log(sortedTipArr);
+    // when the tip array length is bigger than three
+    if (sortedTipArr.length > 3) {
       getThreeRandomizedTips(sortedTipArr);
     }
   }
 
   // insertTips
-  callback(tipArrToDisplay);
+  callback(sortedTipArr);
 }
 
 

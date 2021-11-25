@@ -5,3 +5,9 @@ body {
   background-repeat: no-repeat;
   background-size: 100% 100vh;
 }
+
+.btn-info:hover {
+  color: #0dcaf0;
+  border-color: white;
+  background-color: white;
+}

@@ -1,32 +1,25 @@
-dailyTips.addEventListener("click", completeTip);
-
-function completeTip(event) {
-  if (event.target.classList.contains("complete") || event.target.parentNode.classList.contains("complete")) {
-    // working
-    if (window.confirm("Did you complete this tip?")) {
-      let li = event.target.parentNode.parentNode.parentNode.classList.contains("list-group-item") 
-      ? event.target.parentNode.parentNode.parentNode
-      : event.target.parentNode.parentNode.parentNode.parentNode;
-      dailyTips.removeChild(li);
-      console.log(li.getElementsByClassName('label').tip1.classList[1]);
-      addToProgress(li.getElementsByClassName('label').tip1.classList[1]);
-    }
-    
-  };
-}
-
-function addToProgress(tipId) {
-  console.log('tip ' + tipId + " is finished!");
-  if (!currentUserInfo.progressList) {
-    currentUser.update({
-      progressList: [tipId]
-    });
-  } else {
-    console.log("you already have progressList list so we'll add the one you finished to it");
-    currentUser.update({
-      progressList: currentUser.progressList.push(tipId)
-    });
-  } 
+// add this function to the user's list of progress
+const addToProgressList = (tipId) => {
+  // if so, invokes a function that gets rid of the id of the tip the usr completed from personalTips
+    if (!currentUserInfo.progressList) {
+      currentUser.update({
+        personalTips: currentUserInfo.personalTips.filter(num => 
+          {
+            return num != parseInt(tipId);
+          }),
+        progressList: Array.from(parseInt(tipId)),
+      });
+    } else {
+      // had to create a new array
+      console.log("you already have progressList list so we'll add the one you finished to it");
+      currentUser.update({
+        personalTips: currentUserInfo.personalTips.filter(num => {
+          return num != tipId;
+        }),
+        progressList: new Array(...currentUserInfo.progressList, tipId)
+        
+      });
+    } 
   // let currentTip = document.getElementById('tip1').innerText;
 
   // let currentTip = document.getElementById('tip1').innerText;
@@ -41,17 +34,39 @@ function addToProgress(tipId) {
   // progressList.add(document.getElementById(tip1));
 }
 
-
-function searchForTip() {
-  let currentTip = document.getElementById('tip1').innerText;
-  db.collection("tips").where("name", "==", currentTip)
-    .get()
-    .then(function(querySnapshot) {
-      querySnapshot.forEach(function(doc) {
-        console.log(doc.id, " => ", doc.data());
-      });
-    })
+const completeTip = (event) => {
+  if (event.target.classList.contains("complete") || event.target.parentNode.classList.contains("complete")) {
+    // working
+    if (window.confirm("Did you complete this tip?")) {
+      let li = event.target.parentNode.parentNode.parentNode.classList.contains("list-group-item") 
+      ? event.target.parentNode.parentNode.parentNode
+      : event.target.parentNode.parentNode.parentNode.parentNode;
+      dailyTips.removeChild(li);
+      console.log(li, li.getElementsByClassName(`label`)[0].classList[1]);
+      
+      if (currentUserInfo) {
+        addToProgressList(li.getElementsByClassName(`label`)[0].classList[1]);
+      }
+    }
+    
+  };
 }
+
+dailyTips.addEventListener("click", completeTip);
+
+// and i wanna add another tip if one tip is completed
+// excluding the tip that has the tipId of the just completed
+
+// function searchForTip() {
+//   let currentTip = document.getElementById('tip1').innerText;
+//   db.collection("tips").where("name", "==", currentTip)
+//     .get()
+//     .then(function(querySnapshot) {
+//       querySnapshot.forEach(function(doc) {
+//         console.log(doc.id, " => ", doc.data());
+//       });
+//     })
+// }
 
 //  // Create a reference to the tips collection
 // import { collection, query, where, getDocs } from "firebase/firestore";

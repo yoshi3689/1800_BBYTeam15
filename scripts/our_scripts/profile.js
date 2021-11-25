@@ -38,7 +38,8 @@ fetchUser();
 
 const savePreference = (pref) => {
   if (userData) {
-    // currentUser = db.collection("users").doc(user.uid)
+    //Here,invoke a function that resets personalTips using 'pref'
+
     currentUser.update({
         personalPref: pref
       })

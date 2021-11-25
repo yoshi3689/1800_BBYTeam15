@@ -55,17 +55,21 @@ const fetchPrefText = (e) => {
     const parent = e.target.parentNode;
     const preferenceToAdd = e.target.innerText;
     if (parent.classList.contains('pref_set1')) {
-      preferencesToUpdate[0] = preferenceToAdd;
+      preferencesToUpdate[0] = preferenceToAdd.toLowerCase();
     }
     if (parent.classList.contains('pref_set2')) {
-      preferencesToUpdate[1] = preferenceToAdd;
+      preferencesToUpdate[1] = preferenceToAdd.toLowerCase();
     }
     if (parent.classList.contains('pref_set3')) {
-      preferencesToUpdate[2] = preferenceToAdd;
+      preferencesToUpdate[2] = preferenceToAdd.replace("Under ", "").replace(" Minutes", "");
     }
     if (currentUser) {
       savePreference(preferencesToUpdate);
     }
+    // let typeStringUser = preferences[0].toLowerCase();
+    // let categoriesStringUser = preferences[1].toLowerCase();
+    // let withoutUnder = preferences[2].replace("Under ", "");
+    // let timeStringUser = withoutUnder.replace(" Minutes", "");
   }
 }
 

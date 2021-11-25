@@ -1,3 +1,36 @@
+db.collection("tips")
+  .where("type", "==", "indoor")
+  // .where("time", "==", 5)
+// .orderBy("type").limit(3)
+  .get().then(allTips => {
+  console.log(allTips)
+  allTips.forEach(doc => {
+    console.log(doc.data());
+// where("type", "==", "indoor"
+    // const tip = doc.data();
+    // const id = tip.id;
+    // if (currentUserInfo.personalTips.find(personalTipNum => personalTipNum === id)) {
+    //   const name = tip.name;
+    //   const docId = doc.id;
+    //   const categories = tip.categories.id;
+    //   const type = tip.type.id;
+    //   const time = tip.time.id;
+    //   const image = tip.image;
+
+    //   tipArrToDisplay.push({
+    //     name,
+    //     id,
+    //     categories,
+    //     type,
+    //     time,
+    //     image,
+    //     docId
+    //   });
+    // }
+  })
+
+})
+
 // add this function to the user's list of progress
 const addToProgressList = (tipId) => {
   // if so, invokes a function that gets rid of the id of the tip the usr completed from personalTips

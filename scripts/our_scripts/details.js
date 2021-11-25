@@ -12,9 +12,9 @@ const showDetails = () => {
     // console.log(tip.data());
     // const tip = doc.data();
       const name = tip.data().name;
-      const categories = tip.data().categories.id;
-      const type = tip.data().type.id;
-      const time = tip.data().time.id;
+      const categories = tip.data().categories;
+      const type = tip.data().type;
+      const time = tip.data().time;
       const image = tip.data().image;
       const description = tip.data().description;
       console.log(document.getElementById("tipImg"))

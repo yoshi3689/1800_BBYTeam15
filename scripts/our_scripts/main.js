@@ -21,65 +21,66 @@ const getThreeRandomNums = (arr) => {
 }
 
 // a motherboard that runs all the functions related to fetching tips
-function fetchTips() {
-  firebase.auth().onAuthStateChanged(user => {
-    if (user) {
-      currentUser = db.collection("users").doc(user.uid);
-      currentUser.onSnapshot(userDoc => {
-        currentUserInfo = userDoc.data();
-        // if the user has any preference
-        // generate three random numbers and fetch tips according to their values
-        // if the user already has personal tips and the length of the array is not 0
-        if (currentUserInfo.personalTips && currentUserInfo.personalTips.length != 0) {
-          let tipArrToDisplay = [];
-          // fetch tips using only the personalTipNums
-          db.collection("tips").where("time", "==" , "5").get().then(allTips => {
-            // if there's any tip to display, run the forEach
-            allTips.forEach(doc => {
 
-              console.log(doc.data());
+// function fetchTips() {
+//   firebase.auth().onAuthStateChanged(user => {
+//     if (user) {
+//       currentUser = db.collection("users").doc(user.uid);
+//       currentUser.onSnapshot(userDoc => {
+//         currentUserInfo = userDoc.data();
+//         // if the user has any preference
+//         // generate three random numbers and fetch tips according to their values
+//         // if the user already has personal tips and the length of the array is not 0
+//         if (currentUserInfo.personalTips && currentUserInfo.personalTips.length != 0) {
+//           let tipArrToDisplay = [];
+//           // fetch tips using only the personalTipNums
+//           db.collection("tips").where("time", "==" , "5").get().then(allTips => {
+//             // if there's any tip to display, run the forEach
+//             allTips.forEach(doc => {
 
-              const tip = doc.data();
-              const id = tip.id;
-              if (currentUserInfo.personalTips.find(personalTipNum => personalTipNum === id)) {
-                const name = tip.name;
-                const docId = doc.id;
-                const categories = tip.categories.id;
-                const type = tip.type;
-                const time = tip.time;
-                const image = tip.image;
+//               console.log(doc.data());
 
-                tipArrToDisplay.push({
-                  name,
-                  id,
-                  categories,
-                  type,
-                  time,
-                  image,
-                  docId
-                });
-              }
-            })
-            // asks the user if they want to get moe tips or not
-            // console.log("no tip to show at the moment");
+//               const tip = doc.data();
+//               const id = tip.id;
+//               if (currentUserInfo.personalTips.find(personalTipNum => personalTipNum === id)) {
+//                 const name = tip.name;
+//                 const docId = doc.id;
+//                 const categories = tip.categories.id;
+//                 const type = tip.type;
+//                 const time = tip.time;
+//                 const image = tip.image;
 
-            insertTips(tipArrToDisplay);
-          })
-        } 
-        // if the user runs out of all the personal tips 
-        // else {
-        //     console.log("no tip to show now");
-        //   if (window.confirm("Do you want more tips??")) {
-        //       userPref = userDoc.data().personalPref;
-        //       fetchAllTips((arr) => {
-        //       getFromGeneral(arr, userPref, insertTips);
-        //     });
-        //   }
-        // }
-      })
-    }
-  });
-}
+//                 tipArrToDisplay.push({
+//                   name,
+//                   id,
+//                   categories,
+//                   type,
+//                   time,
+//                   image,
+//                   docId
+//                 });
+//               }
+//             })
+//             // asks the user if they want to get moe tips or not
+//             // console.log("no tip to show at the moment");
+
+//             insertTips(tipArrToDisplay);
+//           })
+//         } 
+//         // if the user runs out of all the personal tips 
+//         // else {
+//         //     console.log("no tip to show now");
+//         //   if (window.confirm("Do you want more tips??")) {
+//         //       userPref = userDoc.data().personalPref;
+//         //       fetchAllTips((arr) => {
+//         //       getFromGeneral(arr, userPref, insertTips);
+//         //     });
+//         //   }
+//         // }
+//       })
+//     }
+//   });
+// }
 
 // the below should work 
 // when the length is 0

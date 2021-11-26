@@ -8,9 +8,9 @@ const insertUserInfo = () => {
   for (let i = 1; i <= 9; i++) {
     userData.personalPref.forEach(preference => {
       let prefToCheck = document.getElementById(`pref_label${i}`);
-      if (prefToCheck.innerText === preference) {
+      if (prefToCheck.innerText.indexOf(preference) != -1) {
         document.getElementById(`btnradio${i}`).checked = true;
-        // console.log(prefToCheck.previousElementSibling, prefToCheck.innerHTML)
+        console.log(prefToCheck.previousElementSibling, prefToCheck.innerHTML)
       }
     })
   }
@@ -55,10 +55,10 @@ const fetchPrefText = (e) => {
     const parent = e.target.parentNode;
     const preferenceToAdd = e.target.innerText;
     if (parent.classList.contains('pref_set1')) {
-      preferencesToUpdate[0] = preferenceToAdd.toLowerCase();
+      preferencesToUpdate[0] = preferenceToAdd;
     }
     if (parent.classList.contains('pref_set2')) {
-      preferencesToUpdate[1] = preferenceToAdd.toLowerCase();
+      preferencesToUpdate[1] = preferenceToAdd;
     }
     if (parent.classList.contains('pref_set3')) {
       preferencesToUpdate[2] = preferenceToAdd.replace("Under ", "").replace(" Minutes", "");

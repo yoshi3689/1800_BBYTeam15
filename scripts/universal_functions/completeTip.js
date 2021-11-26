@@ -1,4 +1,3 @@
-
 // add this function to the user's list of progress
 const addToProgressList = (tipId) => {
   // if so, invokes a function that gets rid of the id of the tip the usr completed from personalTips

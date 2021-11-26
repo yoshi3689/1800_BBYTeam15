@@ -1,7 +1,7 @@
 // Ashkan
 // change the preference settings on the profile page 
 
-let tipArrToDisplay = [];
+
 
 function filterTips2() {
   firebase.auth().onAuthStateChanged(user => {
@@ -12,11 +12,11 @@ function filterTips2() {
         console.log(currentUserInfo)
         const personalPref = currentUserInfo.personalPref;
         console.log(personalPref)
-        // 1.no preference
-        // check if you are getting all sorts of tips
+        //anywhere and both
+        // filtering categories and type
         if (personalPref[0] != "Anywhere" && personalPref[1] != "Both" && personalPref[2] == "Any") {
           db.collection("tips").where("categories", "==", personalPref[0])
-          .where("categories", "==", personalPref[1]).limit(3)
+          .where("categories", "==", personalPref[1])
             .get().then(allTips => {
             console.log(allTips)
             allTips.forEach(doc => {
@@ -49,7 +49,7 @@ function filterTips2() {
           // check if you are getting tips filtered by categories and time
           else if (personalPref[0] != "Anywhere" && personalPref[1] == "Both" && personalPref[2] != "Any") {
           db.collection("tips").where("categories", "==", personalPref[0])
-          .where("categories", "==", personalPref[2]).limit(3)
+          .where("categories", "==", personalPref[2])
             .get().then(allTips => {
             console.log(allTips)
             allTips.forEach(doc => {
@@ -82,7 +82,7 @@ function filterTips2() {
           // check if you are getting tips filtered by type and time
           if (personalPref[0] == "Anywhere" && personalPref[1] != "Both" && personalPref[2] != "Any") {
           db.collection("tips").where("categories", "==", personalPref[1])
-          .where("categories", "==", personalPref[2]).limit(3)
+          .where("categories", "==", personalPref[2])
             .get().then(allTips => {
             console.log(allTips)
             allTips.forEach(doc => {

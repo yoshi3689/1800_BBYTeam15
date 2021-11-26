@@ -2,9 +2,11 @@ const storage = window.localStorage;
 const dailyTips = document.getElementById('dailyTips');
 const collection = 'tips';
 
-let sortedTipArr = [];
+
 let currentUser;
 let currentUserInfo;
+
+// var tipArrToDisplay;
 
 // generate three random numbers
 const getThreeRandomNums = (arr) => {
@@ -18,6 +20,76 @@ const getThreeRandomNums = (arr) => {
     }
   }
   return randomNumRecords;
+}
+
+function fetchTips() {
+  firebase.auth().onAuthStateChanged(user => {
+    if (user) {
+      currentUser = db.collection("users").doc(user.uid);
+      currentUser.onSnapshot(userDoc => {
+        currentUserInfo = userDoc.data();
+        console.log(currentUserInfo);
+
+        const personalPref = currentUserInfo.personalPref;
+        console.log(personalPref);
+
+        // working
+        // 1.no preference
+        // check if you are getting all sorts of tips
+        if (personalPref[0] == "Anywhere" && personalPref[1] == "Both" && personalPref[2] == "Any") {
+          console.log("check if you are getting all sorts of tips");
+          getAnyTips();
+        }
+        // working
+        // 2.anywhere && any
+        // check if you are getting tips filtered by categories
+        else if (personalPref[0] == "Anywhere" && personalPref[1] != "Both" && personalPref[2] == "Any") {
+          console.log("heck if you are getting tips filtered by categories");
+        }
+        // working
+        // 3.both && anywhere
+        // check if you are getting tips filtered by time
+        else if (personalPref[0] == "Anywhere" && personalPref[1] == "Both" && personalPref[2] != "Any") {
+          console.log("check if you are getting tips filtered by time");
+        }
+
+        // working
+        // 4. both and any
+        // check if you are getting tips filtered by type
+        else if (personalPref[0] != "Anywhere" && personalPref[1] == "Both" && personalPref[2] == "Any") {
+          console.log("check if you are getting tips filtered by type");
+        }
+
+        // working
+        // 5.
+        // filtering categories and type
+        else if (personalPref[0] != "Anywhere" && personalPref[1] != "Both" && personalPref[2] == "Any") {
+          console.log("filtering categories and type");
+          }
+          // working
+          // 6. anywhere
+          // check if you are getting tips filtered by categories and time
+          else if (personalPref[0] == "Anywhere" && personalPref[1] != "Both" && personalPref[2] != "Any") {
+            console.log("check if you are getting tips filtered by categories and time");
+          } 
+          // working
+          // 7. both 
+          // check if you are getting tips filtered by type and time
+          else if (personalPref[0] != "Anywhere" && personalPref[1] == "Both" && personalPref[2] != "Any") {
+            console.log("check if you are getting tips filtered by type and time");
+          }
+          
+          // 7. all filters are set
+          else {
+            console.log("all filters are set");
+          }
+
+
+      })
+    }
+
+
+  });
 }
 
 // a motherboard that runs all the functions related to fetching tips

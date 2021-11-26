@@ -7,13 +7,26 @@ firebase.auth().onAuthStateChanged(user => {
   if (user) {
     currentUser = db.collection("users").doc(user.uid);
     var userID = user.uid;
-    
+
     // retrieve user's information
     currentUser.get()
       .then(userDoc => {
 
         // Get progressList from firestore
         var userProgressList = userDoc.data().progressList;
+
+
+    if (userProgressList == undefined) {
+
+      const noTips = document.createElement("p");
+      
+      noTips.innerHTML = `No tips completed yet..!`;
+      noTips.setAttribute("class", "d-block w-50 text-center m-auto mt-5");
+
+      progressList.appendChild(noTips);
+
+
+    } else {
         
         // going through each tip in it
         db.collection("tips").get().then(allTips => {
@@ -46,22 +59,19 @@ firebase.auth().onAuthStateChanged(user => {
                 progressList.appendChild(progressTip);
   
                 console.log(userProgressList[i]);
+                }
 
             }
 
-
-            }
-
-
-        });
+        })
+        
 
         })
 
         }
-
-      )
+      })
     }
-  });
+    });
 
 
 

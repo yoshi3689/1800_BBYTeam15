@@ -177,11 +177,11 @@ function filterTips6(personalPref) {
 
 // filtering tips with all the fields
 function filterTips7(personalPref) {
-  console.log(personalPref);
+  // console.log(personalPref);
   let tipArrToDisplay = [];
   db.collection("tips")
-    // .where("type", "==", personalPref[0])
-    // .where("categories", "==", personalPref[1])
+    .where("type", "==", personalPref[0])
+    .where("categories", "==", personalPref[1])
     .where("time", "==", personalPref[2])
     .get().then(allTips => {
       const tipIds = allTips.docs.map(doc => parseInt(doc.id.replace("tip", "")));

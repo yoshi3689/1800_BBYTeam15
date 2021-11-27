@@ -78,9 +78,10 @@ body {
 }
 
 .label {
-  margin-left: 3vw;
+  margin-left: 2vw;
   /* justify-self: center; */
   margin-bottom: 0;
+  width: 11ch;
 }
 
 .btn-space {
@@ -98,3 +99,21 @@ body {
   marg
 } */
 
+.tag-container {
+  text-align: right;
+}
+
+.button-wrapper {
+  padding-top: 2rem;
+  text-align: center;
+}
+#moreTips {
+  background-color: rgb(252, 184, 58);
+  border: 1px solid rgb(252, 184, 58);
+  /* margin: auto; */
+}
+
+.matched {
+  color: coral !important;
+  text-decoration: wavy;
+}

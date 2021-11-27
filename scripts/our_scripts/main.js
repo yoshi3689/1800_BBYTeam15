@@ -88,8 +88,6 @@ function fetchTips() {
             console.log("all filters are set");
             filterTips7(personalPref);
           }
-          // should this happen here?
-          
         } else {
           // if not, tips are fetched from the existing personalTIps
           console.log("the preferences have not changed, so just display what the user already has");
@@ -115,22 +113,6 @@ function fetchTips() {
   });
 }
 
-// send a new set of tips fetched to Firebase
-function savePersonalTips(tipArrDisplaying) {
-  console.log(currentUserInfo);
-  if (!currentUserInfo.personalTips || currentUserInfo.personalTips.length == 0) {
-    const tipIds = tipArrDisplaying.map(tip => {
-      return tip.id;
-    });;
-    currentUser.update({
-      personalTips: tipIds,
-      isPrefChanged: false
-    });
-  } else {
-    console.log("you already have personal tips");
-  }
-}
-
 // create each tip item the array into each corresponding label element
 function insertTips(arrToDisplay) {
   console.log(arrToDisplay)
@@ -149,6 +131,9 @@ function insertTips(arrToDisplay) {
                         <p class="label ${tip.id}" id="tip1">${tip.name}</p>
                     </div>
                 </a>
+                <div class="tag-container" >
+                  <small class="text-secondary d-block type">#${tip.categories} </small> <small class="text-secondary d-block categories">#${tip.type} </small><small class="text-secondary d-block time">#${tip.time} Mins</small>
+                </div>
                 <div class="d-flex align-items-center">
                     <div class="btn-space">
                         <button type="button" class="btn btn-success btn-sm complete">
@@ -161,10 +146,59 @@ function insertTips(arrToDisplay) {
                     </div>
                     <button type="button" class="btn btn-danger delete btn-sm btn-size">𝗫</button>
                 </div>
-    `
+    `;
+    currentUserInfo.personalPref.forEach(preference => {
+      if (preference == tip.categories) {
+        newTip.getElementsByClassName("categories")[0].classList.add("matched")
+      } 
+      if (preference == tip.type) {
+        newTip.getElementsByClassName("type")[0].classList.add("matched")
+      } 
+      if (preference == tip.time) {
+        newTip.getElementsByClassName("time")[0].classList.add("matched")
+      } 
+    })
     dailyTips.appendChild(newTip);
   })
   savePersonalTips(arrToDisplay);
+}
+
+// send a new set of tips fetched to Firebase
+function savePersonalTips(tipArrDisplaying) {
+  console.log(tipArrDisplaying);
+  if (currentUserInfo.personalTips.length == 0 && tipArrDisplaying.length == 0) {
+    currentUser.update({
+      isPrefChanged: false
+    });
+    createMoreTipButton();
+  } else {
+    const tipIds = tipArrDisplaying.map(tip => {
+      return tip.id;
+    });;
+    console.log("you already have personal tips");
+    currentUser.update({
+      personalTips: tipIds,
+      isPrefChanged: false
+    });
+  }
+}
+
+// create a button for getting more tips
+function createMoreTipButton() {
+  const buttonWrapper = document.createElement("li");
+  console.log(buttonWrapper);
+  buttonWrapper.setAttribute("class", "button-wrapper");
+  buttonWrapper.innerHTML = `<button type="button" class="btn btn-info" onclick="removeSelf(this)" id="moreTips">More Tips?</button>`;
+  console.log(buttonWrapper.firstChild);
+  dailyTips.appendChild(buttonWrapper);
+}
+
+// let the button remove itself and restart the tip fetching process
+function removeSelf(el) {
+    currentUser.update({
+    isPrefChanged: true
+  });
+  el.remove();
 }
 
 document.addEventListener('DOMContentLoaded', fetchTips);

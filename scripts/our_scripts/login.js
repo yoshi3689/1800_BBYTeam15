@@ -7,8 +7,6 @@ var ui = new firebaseui.auth.AuthUI(firebase.auth());
                         db.collection("users").doc(user.uid).set({
                                 name: user.displayName,
                                 email: user.email,
-
-                                personalPref: ['Anywhere', 'Both', 'Under 5 min'],
                                 isPrefChanged: false,
                                 personalPref: ['Anywhere', 'Both', 'Any']
 

@@ -7,7 +7,8 @@ var ui = new firebaseui.auth.AuthUI(firebase.auth());
                         db.collection("users").doc(user.uid).set({
                                 name: user.displayName,
                                 email: user.email,
-                                personalPref: ['Anywhere', 'Both', 'Under 5 min']
+                                personalPref: ['Anywhere', 'Both', 'Under 5 min'],
+                                isPrefChanged: false
                             }).then(function () {
                                 console.log("New user added to firestore");
                                 window.location.assign("main.html");

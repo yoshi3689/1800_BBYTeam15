@@ -19,10 +19,8 @@ const insertUserInfo = () => {
 const fetchUser = () => {
   firebase.auth().onAuthStateChanged(user => {
     if (user) {
-      // console.log(user.uid);
       user_ID = user.uid;
 
-      // assigns a specific user doc to this variable
       currentUser = db.collection("users").doc(user.uid);
       currentUser.onSnapshot(userDoc => {
         userData = userDoc.data();
@@ -38,10 +36,9 @@ fetchUser();
 
 const savePreference = (pref) => {
   if (userData) {
-    //Here,invoke a function that resets personalTips using 'pref'
-
     currentUser.update({
-        personalPref: pref
+        personalPref: pref,
+        isPrefChanged: true
       })
       .then((a) => {
         console.log("Document successfully updated! " + pref);
@@ -61,15 +58,13 @@ const fetchPrefText = (e) => {
       preferencesToUpdate[1] = preferenceToAdd;
     }
     if (parent.classList.contains('pref_set3')) {
-      preferencesToUpdate[2] = preferenceToAdd.replace("Under ", "").replace(" Minutes", "");
+      preferencesToUpdate[2] = parseInt(preferenceToAdd.replace("Under ", "").replace(" Minutes", ""))
+        ? parseInt(preferenceToAdd.replace("Under ", "").replace(" Minutes", ""))
+        : preferenceToAdd;
     }
     if (currentUser) {
       savePreference(preferencesToUpdate);
     }
-    // let typeStringUser = preferences[0].toLowerCase();
-    // let categoriesStringUser = preferences[1].toLowerCase();
-    // let withoutUnder = preferences[2].replace("Under ", "");
-    // let timeStringUser = withoutUnder.replace(" Minutes", "");
   }
 }
 

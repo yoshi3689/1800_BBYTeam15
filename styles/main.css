@@ -90,6 +90,10 @@ body {
 .btn-size {
   padding: 5px 12px;
 }
+
+.list-group-item .nav-link:hover {
+  transform: translateY(-5px);
+}
 /* .flex-wrapper {
   marg
 } */

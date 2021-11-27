@@ -1,7 +1,4 @@
 body {
-  /* display: grid; */
-  /* grid-template-columns: 50% 50%;
-  grid-template-rows: 50vh 50vh; */
   width: 100%;
   background-image: url(../images/background.jpg);
   background-size: cover;

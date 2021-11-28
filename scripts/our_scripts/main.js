@@ -132,7 +132,7 @@ function insertTips(arrToDisplay) {
                     </div>
                 </a>
                 <div class="tag-container" >
-                  <small class="text-secondary d-block type">#${tip.categories} </small> <small class="text-secondary d-block categories">#${tip.type} </small><small class="text-secondary d-block time">#${tip.time} Mins</small>
+                  <small class="text-secondary d-block type">#${tip.type} </small> <small class="text-secondary d-block categories">#${tip.categories} </small><small class="text-secondary d-block time">#${tip.time} Mins</small>
                 </div>
                 <div class="d-flex align-items-center">
                     <div class="btn-space">

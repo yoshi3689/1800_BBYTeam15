@@ -37,7 +37,7 @@ const addToProgressList = (tipId) => {
 const completeTip = (event) => {
   if (event.target.classList.contains("complete") || event.target.parentNode.classList.contains("complete")) {
     // working
-    if (window.confirm("Did you complete this tip?")) {
+    if (window.confirm("Are you sure you completed this tip?")) {
       let li = event.target.parentNode.parentNode.parentNode.classList.contains("list-group-item") 
       ? event.target.parentNode.parentNode.parentNode
       : event.target.parentNode.parentNode.parentNode.parentNode;

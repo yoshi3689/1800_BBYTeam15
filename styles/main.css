@@ -7,10 +7,28 @@ html {
   background-color: #00b4d8 !important;
 }
 
+.w-25 {
+  width: 125px !important;
+}
+
 .btn-info:hover {
   color: #0dcaf0;
   border-color: white;
   background-color: white;
+}
+
+.btn-success:hover {
+  color: #157347;
+  background-color: rgb(117, 199, 147);
+  border-color: #146c43;
+  border-width: 2px;
+}
+
+.btn-danger:hover {
+  color: #bb2d3b;
+  background-color: rgb(227, 153, 153);
+  border-color: #b02a37;
+  border-width: 2px;
 }
 
 .navbar-light .navbar-nav .show > .nav-link,
@@ -53,13 +71,6 @@ body {
   bottom: 100% !important;
 }
 
-/* .avatar {
-  min-height: 5rem !important;
-  max-width: 5rem !important;
-  max-height: 5rem !important;
-  min-width: 5rem !important;
-} */
-
 .center {
   display: flex;
   justify-content: center;
@@ -95,9 +106,6 @@ body {
 .list-group-item .nav-link:hover {
   transform: translateY(-5px);
 }
-/* .flex-wrapper {
-  marg
-} */
 
 .tag-container {
   text-align: right;
@@ -111,6 +119,10 @@ body {
   background-color: rgb(252, 184, 58);
   border: 1px solid rgb(252, 184, 58);
   /* margin: auto; */
+}
+
+li {
+  list-style-type: none;
 }
 
 .matched {

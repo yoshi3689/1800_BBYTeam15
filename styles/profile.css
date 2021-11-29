@@ -3,7 +3,7 @@ label:hover {
 }
 
 #insert-top-3-here {
-  width: 45%;
+  width: max-content;
   margin: auto;
   text-align: left;
 }

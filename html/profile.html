@@ -4,25 +4,25 @@
 <head>
     <meta charset="utf-8">
     <title>Profile</title>
-    <meta name="comp1800 boilerplate code" content="my bcit project"/>
-    <meta name="author" content="BCIT"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
-    
+    <meta name="comp1800 boilerplate code" content="my bcit project" />
+    <meta name="author" content="BCIT" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+
     <!-- Bootstrap, firebase-auth-ui -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
-        <link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/4.8.1/firebase-ui-auth.css" />
-        <link class="logo" href="/images/DAILY_DOSE.png" rel="icon" type="image/x-icon"/>
+    <link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/4.8.1/firebase-ui-auth.css" />
+    <link class="logo" href="/images/DAILY_DOSE.png" rel="icon" type="image/x-icon" />
 
     <!-- Firebase 8 CDNs-->
     <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> -->
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
-     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
-     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
-     <script src="https://www.gstatic.com/firebasejs/ui/4.8.1/firebase-ui-auth.js"></script>
-     <script src="https://www.gstatic.com/firebasejs/8.2.9/firebase-storage.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/ui/4.8.1/firebase-ui-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.2.9/firebase-storage.js"></script>
 
-     <!-- Link to the api keys for your firebase project -->
+    <!-- Link to the api keys for your firebase project -->
     <script src="../scripts/firebaseAPI.js"></script>
 
     <!-- Optional styles -->
@@ -71,41 +71,38 @@
         </div>
     </nav>
 
-    <button class="btn btn-secondary" id="backButton">
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-backspace"
+    <button id="backButton">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-arrow-left"
             viewbox="0 0 16 16">
-            <path
-                d="M5.83 5.146a.5.5 0 0 0 0 .708L7.975 8l-2.147 2.146a.5.5 0 0 0 .707.708l2.147-2.147 2.146 2.147a.5.5 0 0 0 .707-.708L9.39 8l2.146-2.146a.5.5 0 0 0-.707-.708L8.683 7.293 6.536 5.146a.5.5 0 0 0-.707 0z" />
-            <path
-                d="M13.683 1a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2h-7.08a2 2 0 0 1-1.519-.698L.241 8.65a1 1 0 0 1 0-1.302L5.084 1.7A2 2 0 0 1 6.603 1h7.08zm-7.08 1a1 1 0 0 0-.76.35L1 8l4.844 5.65a1 1 0 0 0 .759.35h7.08a1 1 0 0 0 1-1V3a1 1 0 0 0-1-1h-7.08z" />
+            <path fill-rule="evenodd"
+                d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z" />
         </svg>
     </button>
     <div class="avatar-container pt-3" id="profileIcon">
-        
         <a href="javascript:;" class="">
-            <img class="mx-auto d-block w-25 img-fluid avatar avatar-s rounded-circle" alt="Image placeholder"
-            src="../images/avatar.jpg"
-                style="width: 100px;">
-
+            <img class="mx-auto d-block w-25 img-fluid avatar avatar-s rounded-circle" alt="Image placeholder" src="../images/avatar.jpg">
         </a>
         <h3 class="text-center" id="user-name_avatar">avatar</h3>
-        <br/>
-
-        
-        <div id="progress" class="text-center">
-            <a href="progressList.html" class="btn w-25 m-auto btn-important">See Progress</a>
-            <ul id="insert-top-3-here">
-                <li></li>
-            </ul>
-            <br />
-        </div>
+        <br />
     </div>
 
+    <div id="progress" class="text-center">
+        <h2 class="fs-4 text-center">Most Recent Progress</h2>
+        <ol id="insert-top-3-here">
+        </ol>
+        <br />
+        <a href="progressList.html" class="btn w-25 btn-info m-auto">See All</a>
+        <br />
+    </div>
+
+
+    <br />
+    <br />
     <div id="pref" class="text-center">
-        <br/>
+        <br />
         <h2 class="fs-4 text-center">Preferences</h2>
-        <br/>
-        <div class="btn-group pref_set1" role="group" aria-label="Basic radio toggle button group" >
+        <br />
+        <div class="btn-group pref_set1" role="group" aria-label="Basic radio toggle button group">
             <input type="radio" class="btn-check" name="btnradioS1" id="btnradio1" autocomplete="off">
             <label class="btn btn-outline-light" id="pref_label1" for="btnradio1">Anywhere</label>
 
@@ -115,9 +112,9 @@
             <input type="radio" class="btn-check" name="btnradioS1" id="btnradio3" autocomplete="off">
             <label class="btn btn-outline-light" id="pref_label3" for="btnradio3">Outdoor</label>
         </div>
-        <br/>
-        <br/>
-        <div class="btn-group pref_set2" role="group" aria-label="Basic radio toggle button group" >
+        <br />
+        <br />
+        <div class="btn-group pref_set2" role="group" aria-label="Basic radio toggle button group">
             <input type="radio" class="btn-check" name="btnradioS2" id="btnradio4" autocomplete="off">
             <label class="btn btn-outline-light" id="pref_label4" for="btnradio4">Both</label>
 
@@ -127,9 +124,9 @@
             <input type="radio" class="btn-check" name="btnradioS2" id="btnradio6" autocomplete="off">
             <label class="btn btn-outline-light" id="pref_label6" for="btnradio6">Mental</label>
         </div>
-        <br/>
-        <br/>
-        <div class="btn-group pref_set3" role="group" aria-label="Basic radio toggle button group" >
+        <br />
+        <br />
+        <div class="btn-group pref_set3" role="group" aria-label="Basic radio toggle button group">
             <input type="radio" class="btn-check" name="btnradioS3" id="btnradio7" autocomplete="off">
             <label class="btn btn-outline-light" id="pref_label7" for="btnradio7">Any</label>
 
@@ -137,7 +134,7 @@
             <label class="btn btn-outline-light" id="pref_label8" for="btnradio8">5 Minutes</label>
 
             <input type="radio" class="btn-check" name="btnradioS3" id="btnradio9" autocomplete="off">
-            <label class="btn btn-outline-light"  id="pref_label9" for="btnradio9">10 Minutes</label>
+            <label class="btn btn-outline-light" id="pref_label9" for="btnradio9">10 Minutes</label>
         </div>
     </div>
 

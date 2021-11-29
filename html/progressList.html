@@ -1,65 +1,68 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Document</title>
-   <!-- Bootstrap, firebase-auth-ui -->
-   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet"
-   integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
-<link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/4.8.1/firebase-ui-auth.css" />
-<link class="logo" href="/images/DAILY_DOSE.png" rel="icon" type="image/x-icon"/>
+  <!-- Bootstrap, firebase-auth-ui -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+  <link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/4.8.1/firebase-ui-auth.css" />
+  <link class="logo" href="/images/DAILY_DOSE.png" rel="icon" type="image/x-icon" />
 
-<!-- Firebase 8 CDNs-->
-<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"
-   integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous">
-</script>
-<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
-<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
-<script src="https://www.gstatic.com/firebasejs/ui/4.8.1/firebase-ui-auth.js"></script>
+  <!-- Firebase 8 CDNs-->
+  <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous">
+  </script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/ui/4.8.1/firebase-ui-auth.js"></script>
 
-<!-- Link to the api keys for your firebase project -->
-<script src="../scripts/firebaseAPI.js"></script>
+  <!-- Link to the api keys for your firebase project -->
+  <script src="../scripts/firebaseAPI.js"></script>
 
-<!-- Optional styles  -->
-<link type="text/css" href="/styles/index.css" rel="stylesheet"/>
-<link type="text/css" href="/styles/progress.css" rel="stylesheet"/>
+  <!-- Optional styles  -->
+  <link type="text/css" href="/styles/index.css" rel="stylesheet" />
+  <link type="text/css" href="/styles/progress.css" rel="stylesheet" />
 </head>
+
 <body>
 
   <!-- NAVBAR ICONS SLIGHTLY OFF-CENTER FROM THEIR LABELS -->
+  <button id="backButton">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-arrow-left"
+      viewbox="0 0 16 16">
+      <path fill-rule="evenodd"
+        d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z" />
+    </svg>
+  </button>
 
-
-  <button class="btn btn-secondary" id="backButton">
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-backspace" viewbox="0 0 16 16">
-        <path d="M5.83 5.146a.5.5 0 0 0 0 .708L7.975 8l-2.147 2.146a.5.5 0 0 0 .707.708l2.147-2.147 2.146 2.147a.5.5 0 0 0 .707-.708L9.39 8l2.146-2.146a.5.5 0 0 0-.707-.708L8.683 7.293 6.536 5.146a.5.5 0 0 0-.707 0z"/>
-        <path d="M13.683 1a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2h-7.08a2 2 0 0 1-1.519-.698L.241 8.65a1 1 0 0 1 0-1.302L5.084 1.7A2 2 0 0 1 6.603 1h7.08zm-7.08 1a1 1 0 0 0-.76.35L1 8l4.844 5.65a1 1 0 0 0 .759.35h7.08a1 1 0 0 0 1-1V3a1 1 0 0 0-1-1h-7.08z"/>
-      </svg>
-</button>
-
-<div class="avatar-container pt-3">
-  <a href="javascript:;" class="">
-      <img class="mx-auto d-block w-25 img-fluid avatar avatar-s rounded-circle" alt="Image placeholder" src="../images/avatar.jpg"/>
-  </a>
-  <h3 class="text-center" id="user-name_avatar">avatar</h3>
-</div>
-
-<br/>
-<br/>
-
-<div id="progress-content">
-  <h1 style="text-align: center;">Progress</h1>
-  <div id="insert-progress-here" class="mt-5 container">
+  <div class="avatar-container pt-3">
+    <a href="javascript:;" class="">
+      <img class="mx-auto d-block w-25 img-fluid avatar avatar-s rounded-circle" alt="Image placeholder"
+        src="../images/avatar.jpg" />
+    </a>
+    <h3 class="text-center" id="user-name_avatar">avatar</h3>
   </div>
 
-</div>
+  <br />
+  <br />
 
-<script src="../scripts/universal_functions/backPage.js"></script>
-<script src="../scripts/our_scripts/progress.js"></script>
+  <div id="progress-content" class="pt-3">
+    <h1 class="text-center">Progress</h1>
+    <div id="insert-progress-here" class="container">
+    </div>
 
-  
+  </div>
+
+  <script src="../scripts/universal_functions/backPage.js"></script>
+  <script src="../scripts/our_scripts/progress.js"></script>
+
+
 </body>
+
 </html>

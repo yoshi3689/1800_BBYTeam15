@@ -3,5 +3,7 @@ label:hover {
 }
 
 #insert-top-3-here {
-  list-style-type: none;
+  width: 45%;
+  margin: auto;
+  text-align: left;
 }

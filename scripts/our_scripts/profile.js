@@ -103,10 +103,8 @@ firebase.auth().onAuthStateChanged(user => {
   
                 // let completedTip = userProgressList[i];
                 
-                const progressTip = document.createElement("p");
-
-                progressTip.innerHTML = `<p>${name}</p>`;
-
+                const progressTip = document.createElement("li");
+                progressTip.innerHTML =  "&nbsp;" + name;
                 progressList.appendChild(progressTip);
   
                 console.log(userProgressList[i]);

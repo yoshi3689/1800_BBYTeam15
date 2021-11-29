@@ -136,7 +136,7 @@ function insertTips(arrToDisplay) {
                 </div>
                 <div class="d-flex align-items-center">
                     <div class="btn-space">
-                        <button type="button" class="btn btn-success btn-sm complete">
+                        <button type="button" class="btn btn-info btn-sm complete">
                             <svg xmlns="http://www.w3.org/2000/svg"  width="20" height="20"
                                 fill="currentColor" class="bi bi-check-lg" viewbox="0 0 16 16">
                                 <path
@@ -186,9 +186,10 @@ function savePersonalTips(tipArrDisplaying) {
 // create a button for getting more tips
 function createMoreTipButton() {
   const buttonWrapper = document.createElement("li");
-  console.log(buttonWrapper);
+  // console.log(buttonWrapper);
   buttonWrapper.setAttribute("class", "button-wrapper");
-  buttonWrapper.innerHTML = `<button type="button" class="btn btn-info" onclick="removeSelf(this)" id="moreTips">More Tips?</button>`;
+  // buttonWrapper.innerText = "";
+  buttonWrapper.innerHTML = `No Tip To Show <br /> <br /> <button type="button" class="btn w-25 m-auto btn-important" onclick="removeSelf(this)" id="moreTips">More Tips?</button>`;
   console.log(buttonWrapper.firstChild);
   dailyTips.appendChild(buttonWrapper);
 }

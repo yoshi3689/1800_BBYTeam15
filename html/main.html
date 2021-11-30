@@ -73,6 +73,7 @@
     </nav>
 
     <div class="avatar-container mt-3">
+        <br />
         <a href="profile.html" class="mx-auto">
             <img class="img-fluid avatar avatar-s rounded-circle" alt="Image placeholder" src="../images/avatar.jpg" />
         </a>
@@ -101,33 +102,22 @@
         function insertName() {
 
             firebase.auth().onAuthStateChanged(user => {
-                // Check if user is signed in:
                 if (user) {
-                    // Do something for the current logged-in user here: 
-                    console.log(user.uid);
-                    //go to the correct user document by referencing to the user uid
                     currentUser = db.collection("users").doc(user.uid);
-                    //get the document for current user.
                     currentUser.get()
                         .then(userDoc => {
-                            var user_Name = userDoc.data().name;
-                            console.log(user_Name);
-                            //method #1:  insert with html only
+                            var userName = userDoc.data().name;
+                            console.log(userName);
                             document.getElementById("user-name_avatar").innerText =
-                                user_Name; //using javascript
+                                userName; 
                         })
                 } else {
                     console.log("you did not sign in");
-                    // No user is signed in.
                 }
             });
         }
         insertName();
     </script>
-    <!--------------------------------------------------------------------->
-    <!-- JS files: Your own JavaScript functions included here    -->
-    <!--------------------------------------------------------------------->
-
 </body>
 
 </html>

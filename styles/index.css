@@ -15,10 +15,7 @@ html {
 body {
   color: #f8f9fa;
   width: 100%;
-  background-image: linear-gradient(rgba(0, 0, 0, 0.262),rgba(0, 0, 0, 0.208)) , url(../images/background.jpg);
-  /* background-image: linear-gradient(rgba(0, 0, 0, 0.262),rgba(0, 0, 0, 0.208)) , url(../images/pexels-jot-2179483.jpg); */
-  /* background-image: url(../images/pexels-jot-2179483.jpg) linear-gradient(); */
-
+  background-image: linear-gradient(rgba(0, 0, 0, 0.319),rgba(0, 0, 0, 0.259)) , url(../images/background.jpg);
   background-size: cover;
   background-repeat: no-repeat;
 }

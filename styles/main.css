@@ -4,14 +4,12 @@
 }
 
 .wrapper {
-  /* padding-right: 20%; */
   color: black;
   text-decoration: none;
 }
 
 .label {
   margin-left: 2vw;
-  /* justify-self: center; */
   margin-bottom: 0;
   width: 11ch;
 }

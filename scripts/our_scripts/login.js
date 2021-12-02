@@ -3,16 +3,17 @@ var ui = new firebaseui.auth.AuthUI(firebase.auth());
             callbacks: {
                 signInSuccessWithAuthResult: function (authResult, redirectUrl) {
                     var user = authResult.user;
+                    // if a new user logins in, these preset values are set in firebase
                     if (authResult.additionalUserInfo.isNewUser) {
                         db.collection("users").doc(user.uid).set({
                                 name: user.displayName,
                                 email: user.email,
                                 personalTips: [],
                                 isPrefChanged: false,
+                                //preset values for prefrences are set to anything.
                                 personalPref: ['Anywhere', 'Both', 'Any']
 
                             }).then(function () {
-                                console.log("New user added to firestore");
                                 window.location.assign("main.html");
                             })
                             .catch(function (error) {
@@ -32,12 +33,7 @@ var ui = new firebaseui.auth.AuthUI(firebase.auth());
             signInSuccessUrl: 'main.html',
             signInOptions: [
                 // Leave the lines as is for the providers you want to offer your users.
-                //firebase.auth.GoogleAuthProvider.PROVIDER_ID,
-                //firebase.auth.FacebookAuthProvider.PROVIDER_ID,
-                //firebase.auth.TwitterAuthProvider.PROVIDER_ID,
-                //firebase.auth.GithubAuthProvider.PROVIDER_ID,
                 firebase.auth.EmailAuthProvider.PROVIDER_ID,
-                //firebase.auth.PhoneAuthProvider.PROVIDER_ID
             ],
             // Terms of service url.
             tosUrl: '<your-tos-url>',

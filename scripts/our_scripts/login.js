@@ -3,6 +3,7 @@ var ui = new firebaseui.auth.AuthUI(firebase.auth());
             callbacks: {
                 signInSuccessWithAuthResult: function (authResult, redirectUrl) {
                     var user = authResult.user;
+                    // if a new user logins in, these preset values are set in firebase
                     if (authResult.additionalUserInfo.isNewUser) {
                         // Setting up a new user with the default preferences (Anywhere, Both, Any)
                         db.collection("users").doc(user.uid).set({
@@ -10,10 +11,10 @@ var ui = new firebaseui.auth.AuthUI(firebase.auth());
                                 email: user.email,
                                 personalTips: [],
                                 isPrefChanged: false,
+                                //preset values for prefrences are set to anything.
                                 personalPref: ['Anywhere', 'Both', 'Any']
 
                             }).then(function () {
-                                console.log("New user added to firestore");
                                 window.location.assign("main.html");
                             })
                             .catch(function (error) {
@@ -32,6 +33,7 @@ var ui = new firebaseui.auth.AuthUI(firebase.auth());
             signInFlow: 'popup',
             signInSuccessUrl: 'main.html',
             signInOptions: [
+                // Leave the lines as is for the providers you want to offer your users.
                 firebase.auth.EmailAuthProvider.PROVIDER_ID,
             ],
             // Terms of service url.

@@ -184,3 +184,24 @@ function removeSelf(el) {
 }
 
 document.addEventListener('DOMContentLoaded', fetchTips);
+
+
+
+function insertName() {
+
+  firebase.auth().onAuthStateChanged(user => {
+      if (user) {
+          currentUser = db.collection("users").doc(user.uid);
+          currentUser.get()
+              .then(userDoc => {
+                  var userName = userDoc.data().name;
+                  console.log(userName);
+                  document.getElementById("user-name_avatar").innerText =
+                      userName; 
+              })
+      } else {
+          console.log("you did not sign in");
+      }
+  });
+}
+insertName();

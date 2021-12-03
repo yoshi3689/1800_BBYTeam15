@@ -1,6 +1,29 @@
 
 var currentUser;
 const progressList = document.getElementById('insert-progress-here');
+let userData;
+
+const insertUserInfo = () => {
+  document.getElementById("user-name_avatar").innerText = userData.name;
+}
+
+const fetchUser = () => {
+  firebase.auth().onAuthStateChanged(user => {
+    if (user) {
+      user_ID = user.uid;
+
+      currentUser = db.collection("users").doc(user.uid);
+      currentUser.onSnapshot(userDoc => {
+        userData = userDoc.data();
+        insertUserInfo();
+        console.log(userData);
+      });
+    } else {
+      console.log("you did not sign in");
+    }
+  });
+}
+fetchUser();
 
 // makes sure someone is logged in, then does the stuff in it 
 firebase.auth().onAuthStateChanged(user => {

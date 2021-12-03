@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
     <meta charset="utf-8">
@@ -96,28 +96,7 @@
     <script src="../scripts/universal_functions/fetchTipsMain.js"></script>
     <script src="../scripts/universal_functions/removeItem.js"></script>
     <script src="../scripts/universal_functions/completeTip.js"></script>
-
-
-    <script>
-        function insertName() {
-
-            firebase.auth().onAuthStateChanged(user => {
-                if (user) {
-                    currentUser = db.collection("users").doc(user.uid);
-                    currentUser.get()
-                        .then(userDoc => {
-                            var userName = userDoc.data().name;
-                            console.log(userName);
-                            document.getElementById("user-name_avatar").innerText =
-                                userName; 
-                        })
-                } else {
-                    console.log("you did not sign in");
-                }
-            });
-        }
-        insertName();
-    </script>
+    
 </body>
 
 </html>

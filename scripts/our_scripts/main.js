@@ -16,13 +16,11 @@ function fetchTips() {
       currentUser = db.collection("users").doc(user.uid);
       currentUser.onSnapshot(userDoc => {
         currentUserInfo = userDoc.data();
-        console.log(currentUserInfo)
         const personalPref = currentUserInfo.personalPref;
         const isPrefChanged = currentUserInfo.isPrefChanged;
 
         // what if personalTips.length === 0?
         //   else {
-        //     console.log("no tip to show now");
         //   if (window.confirm("Do you want more tips??")) {
         //       userPref = userDoc.data().personalPref;
         //       fetchAllTips((arr) => {
@@ -35,72 +33,60 @@ function fetchTips() {
         // when the value of the flag is true, tips are newly fetched
         // based on the filter values
         if (isPrefChanged) {
-          console.log("is the user's pref changed? " + isPrefChanged)
 
           // 1.no preference
           // check if you are getting all sorts of tips
           if (personalPref[0] == "Anywhere" && personalPref[1] == "Both" && personalPref[2] == "Any") {
-            console.log("check if you are getting all sorts of tips");
             getAnyTips();
           }
           // 2.anywhere && any
           // check if you are getting tips filtered by categories
           else if (personalPref[0] == "Anywhere" && personalPref[1] != "Both" && personalPref[2] == "Any") {
-            console.log("heck if you are getting tips filtered by categories");
             filterTips1(personalPref);
           }
 
           // 3.both && anywhere
           // check if you are getting tips filtered by time
           else if (personalPref[0] == "Anywhere" && personalPref[1] == "Both" && personalPref[2] != "Any") {
-            console.log("check if you are getting tips filtered by time");
             filterTips2(personalPref);
           }
 
           // 4. both and any
           // check if you are getting tips filtered by type
           else if (personalPref[0] != "Anywhere" && personalPref[1] == "Both" && personalPref[2] == "Any") {
-            console.log("check if you are getting tips filtered by type");
             filterTips3(personalPref);
           }
 
           // 5.
           // filtering categories and type
           else if (personalPref[0] != "Anywhere" && personalPref[1] != "Both" && personalPref[2] == "Any") {
-            console.log("filtering categories and type");
             filterTips4(personalPref);
           }
           // 6. anywhere
           // check if you are getting tips filtered by categories and time
           else if (personalPref[0] == "Anywhere" && personalPref[1] != "Both" && personalPref[2] != "Any") {
-            console.log("check if you are getting tips filtered by categories and time");
             filterTips5(personalPref);
           }
           // 7. both 
           // check if you are getting tips filtered by type and time
           else if (personalPref[0] != "Anywhere" && personalPref[1] == "Both" && personalPref[2] != "Any") {
-            console.log("check if you are getting tips filtered by type and time");
             filterTips6(personalPref);
           }
 
           // 8. all filters are set
           else {
-            console.log("all filters are set");
             filterTips7(personalPref);
           }
         } else {
           // if not, tips are fetched from the existing personalTIps
-          console.log("the preferences have not changed, so just display what the user already has");
           let tipArrToDisplay = [];
           db.collection("tips").get().then(allTips => {
-            // console.log(allTips)
             allTips.forEach(doc => {
               const tip = doc.data();
               const id = tip.id;
               if (currentUserInfo.personalTips.find(personalTipNum => personalTipNum === id)) {
                 tipArrToDisplay.push(tip);
               }
-              // console.log(tipArrToDisplay);
             })
 
             insertTips(tipArrToDisplay);
@@ -115,7 +101,6 @@ function fetchTips() {
 
 // create each tip item the array into each corresponding label element
 function insertTips(arrToDisplay) {
-  console.log(arrToDisplay)
   dailyTips.innerHTML = "";
   arrToDisplay.forEach((tip, index) => {
     const newTip = document.createElement("li");
@@ -165,7 +150,6 @@ function insertTips(arrToDisplay) {
 
 // send a new set of tips fetched to Firebase
 function savePersonalTips(tipArrDisplaying) {
-  console.log(tipArrDisplaying);
   if (currentUserInfo.personalTips.length == 0 && tipArrDisplaying.length == 0) {
     currentUser.update({
       isPrefChanged: false
@@ -175,7 +159,6 @@ function savePersonalTips(tipArrDisplaying) {
     const tipIds = tipArrDisplaying.map(tip => {
       return tip.id;
     });;
-    console.log("you already have personal tips");
     currentUser.update({
       personalTips: tipIds,
       isPrefChanged: false
@@ -186,11 +169,9 @@ function savePersonalTips(tipArrDisplaying) {
 // create a button for getting more tips
 function createMoreTipButton() {
   const buttonWrapper = document.createElement("li");
-  // console.log(buttonWrapper);
   buttonWrapper.setAttribute("class", "button-wrapper");
   // buttonWrapper.innerText = "";
   buttonWrapper.innerHTML = `No Tip To Show <br /> <br /> <button type="button" class="btn w-25 m-auto btn-important" onclick="removeSelf(this)" id="moreTips">More Tips?</button>`;
-  console.log(buttonWrapper.firstChild);
   dailyTips.appendChild(buttonWrapper);
 }
 
@@ -203,3 +184,24 @@ function removeSelf(el) {
 }
 
 document.addEventListener('DOMContentLoaded', fetchTips);
+
+
+
+function insertName() {
+
+  firebase.auth().onAuthStateChanged(user => {
+      if (user) {
+          currentUser = db.collection("users").doc(user.uid);
+          currentUser.get()
+              .then(userDoc => {
+                  var userName = userDoc.data().name;
+                  console.log(userName);
+                  document.getElementById("user-name_avatar").innerText =
+                      userName; 
+              })
+      } else {
+          console.log("you did not sign in");
+      }
+  });
+}
+insertName();

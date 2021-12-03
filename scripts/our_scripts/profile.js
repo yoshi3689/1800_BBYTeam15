@@ -4,13 +4,15 @@ let user_ID;
 let currentUser;
 
 const insertUserInfo = () => {
+  // Insert the user's name under the avatar (profile picture)
   document.getElementById("user-name_avatar").innerText = userData.name;
   for (let i = 1; i <= 9; i++) {
+    // Different preference buttons, the preference is indicated on the user's profile pagge
     userData.personalPref.forEach(preference => {
       let prefToCheck = document.getElementById(`pref_label${i}`);
       if (prefToCheck.innerText.indexOf(preference) != -1) {
         document.getElementById(`btnradio${i}`).checked = true;
-        console.log(prefToCheck.previousElementSibling, prefToCheck.innerHTML)
+
       }
     })
   }
@@ -25,15 +27,14 @@ const fetchUser = () => {
       currentUser.onSnapshot(userDoc => {
         userData = userDoc.data();
         insertUserInfo();
-        console.log(userData);
+
       });
-    } else {
-      console.log("you did not sign in");
     }
   });
 }
 fetchUser();
 
+// Updates the user's preferences in Firebase (the personalPref array)
 const savePreference = (pref) => {
   if (userData) {
     currentUser.update({
@@ -41,11 +42,12 @@ const savePreference = (pref) => {
         isPrefChanged: true
       })
       .then((a) => {
-        console.log("Document successfully updated! " + pref);
+
       })
   }
 }
 
+// Fetches preferences from the user's profile page, 
 const fetchPrefText = (e) => {
   let preferencesToUpdate = [userData.personalPref[0], userData.personalPref[1], userData.personalPref[2]];
   if (e.target.tagName == "LABEL") {
@@ -88,7 +90,7 @@ firebase.auth().onAuthStateChanged(user => {
         
         // going through each tip in it
         db.collection("tips").get().then(allTips => {
-          console.log(allTips);
+  
           // if there's any tip to display, run the forEach
           allTips.forEach(doc => {
             const tip = doc.data();
@@ -98,29 +100,15 @@ firebase.auth().onAuthStateChanged(user => {
 
                 if (userProgressList[i] == id) {
                   const name = tip.name;
-
-                  console.log(userProgressList);
-  
-                // let completedTip = userProgressList[i];
                 
                 const progressTip = document.createElement("li");
                 progressTip.innerHTML =  "&nbsp;" + name;
                 progressList.appendChild(progressTip);
-  
-                console.log(userProgressList[i]);
-
             }
-
-
             }
-
-
         });
-
         })
-
         }
-
       )
     }
   });

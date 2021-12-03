@@ -18,7 +18,7 @@ body {
   background-image: linear-gradient(rgba(0, 0, 0, 0.319),rgba(0, 0, 0, 0.259)) , url(../images/background.jpg);
   background-size: cover;
   background-repeat: no-repeat;
-  padding-bottom: 25%;
+  padding-bottom: 30% !important;
 }
 
 .bg-info {

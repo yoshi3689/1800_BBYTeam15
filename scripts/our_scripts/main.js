@@ -1,15 +1,10 @@
-const storage = window.localStorage;
 const dailyTips = document.getElementById('dailyTips');
 const collection = 'tips';
-
 
 let currentUser;
 let currentUserInfo;
 
-
-// generate three random numbers
-
-// a motherboard for all the tipFetching functions
+// a motherboard for all the tip fetching functions
 function fetchTips() {
   firebase.auth().onAuthStateChanged(user => {
     if (user) {
@@ -18,68 +13,58 @@ function fetchTips() {
         currentUserInfo = userDoc.data();
         const personalPref = currentUserInfo.personalPref;
         const isPrefChanged = currentUserInfo.isPrefChanged;
-
-        // what if personalTips.length === 0?
-        //   else {
-        //   if (window.confirm("Do you want more tips??")) {
-        //       userPref = userDoc.data().personalPref;
-        //       fetchAllTips((arr) => {
-        //       getFromGeneral(arr, userPref, insertTips);
-        //     });
-        //   }
-        // }
-
-
-        // when the value of the flag is true, tips are newly fetched
-        // based on the filter values
         if (isPrefChanged) {
+          // if the flag value is true, apply a new set of filters
+          applyFilters(personalPref);
+  
+        } else {
+          // if not, tips are fetched from the existing personalTIps
+          fetchPersonalTips();
+        }
+      })
+    }
+  });
+}
 
+// invokes an appropriate filter & fetch function based on the value of the user preference 
+function applyFilters(personalPref) {
           // 1.no preference
-          // check if you are getting all sorts of tips
           if (personalPref[0] == "Anywhere" && personalPref[1] == "Both" && personalPref[2] == "Any") {
             getAnyTips();
           }
-          // 2.anywhere && any
-          // check if you are getting tips filtered by categories
+          // 2.filtering by categories
           else if (personalPref[0] == "Anywhere" && personalPref[1] != "Both" && personalPref[2] == "Any") {
             filterTips1(personalPref);
           }
-
-          // 3.both && anywhere
-          // check if you are getting tips filtered by time
+          // 3.filtering by time
           else if (personalPref[0] == "Anywhere" && personalPref[1] == "Both" && personalPref[2] != "Any") {
             filterTips2(personalPref);
           }
-
-          // 4. both and any
-          // check if you are getting tips filtered by type
+          // 4. filtering by type
           else if (personalPref[0] != "Anywhere" && personalPref[1] == "Both" && personalPref[2] == "Any") {
             filterTips3(personalPref);
           }
-
-          // 5.
-          // filtering categories and type
+          // 5.filtering categories and type
           else if (personalPref[0] != "Anywhere" && personalPref[1] != "Both" && personalPref[2] == "Any") {
             filterTips4(personalPref);
           }
-          // 6. anywhere
-          // check if you are getting tips filtered by categories and time
+          // 6. filtering by categories and time
           else if (personalPref[0] == "Anywhere" && personalPref[1] != "Both" && personalPref[2] != "Any") {
             filterTips5(personalPref);
           }
-          // 7. both 
-          // check if you are getting tips filtered by type and time
+          // 7. both filtering by type and time
           else if (personalPref[0] != "Anywhere" && personalPref[1] == "Both" && personalPref[2] != "Any") {
             filterTips6(personalPref);
           }
-
-          // 8. all filters are set
+          // 8. filtering by all three
           else {
             filterTips7(personalPref);
           }
-        } else {
-          // if not, tips are fetched from the existing personalTIps
-          let tipArrToDisplay = [];
+}
+
+// fetches tips based on the user's current personalTip array
+function fetchPersonalTips() {
+  let tipArrToDisplay = [];
           db.collection("tips").get().then(allTips => {
             allTips.forEach(doc => {
               const tip = doc.data();
@@ -88,25 +73,19 @@ function fetchTips() {
                 tipArrToDisplay.push(tip);
               }
             })
-
             insertTips(tipArrToDisplay);
           })
-        }
-
-
-      })
-    }
-  });
 }
 
-// create each tip item the array into each corresponding label element
+// create a list item based on the array of tip information and insert them into
+// the tip list.
 function insertTips(arrToDisplay) {
+  // clears out the old tips before displaying a new set of tips
   dailyTips.innerHTML = "";
   arrToDisplay.forEach((tip, index) => {
     const newTip = document.createElement("li");
     newTip.setAttribute("class", "list-group-item d-flex justify-content-between align-items-center");
     newTip.setAttribute("id", `tip${index + 1}`)
-
     let hrefToSet = "details.html?collection=tips&id=tip" + tip.id;
     let srcToSet = "/" + tip.image;
     newTip.innerHTML = `
@@ -132,6 +111,8 @@ function insertTips(arrToDisplay) {
                     <button type="button" class="btn btn-danger delete btn-sm btn-size">𝗫</button>
                 </div>
     `;
+
+    // add a class to a hashtag to highlight them with orange
     currentUserInfo.personalPref.forEach(preference => {
       if (preference == tip.categories) {
         newTip.getElementsByClassName("categories")[0].classList.add("matched")
@@ -142,7 +123,7 @@ function insertTips(arrToDisplay) {
       if (preference == tip.time) {
         newTip.getElementsByClassName("time")[0].classList.add("matched")
       } 
-    })
+    });
     dailyTips.appendChild(newTip);
   })
   savePersonalTips(arrToDisplay);
@@ -170,12 +151,11 @@ function savePersonalTips(tipArrDisplaying) {
 function createMoreTipButton() {
   const buttonWrapper = document.createElement("li");
   buttonWrapper.setAttribute("class", "button-wrapper");
-  // buttonWrapper.innerText = "";
   buttonWrapper.innerHTML = `No Tip To Show <br /> <br /> <button type="button" class="btn w-25 m-auto btn-important" onclick="removeSelf(this)" id="moreTips">More Tips?</button>`;
   dailyTips.appendChild(buttonWrapper);
 }
 
-// let the button remove itself and restart the tip fetching process
+// add the button a function that removes itself and restarts the tip fetching process
 function removeSelf(el) {
     currentUser.update({
     isPrefChanged: true
@@ -183,12 +163,8 @@ function removeSelf(el) {
   el.remove();
 }
 
-document.addEventListener('DOMContentLoaded', fetchTips);
-
-
-
+// inserts the user's name 
 function insertName() {
-
   firebase.auth().onAuthStateChanged(user => {
       if (user) {
           currentUser = db.collection("users").doc(user.uid);
@@ -204,4 +180,6 @@ function insertName() {
       }
   });
 }
+
+document.addEventListener('DOMContentLoaded', fetchTips);
 insertName();

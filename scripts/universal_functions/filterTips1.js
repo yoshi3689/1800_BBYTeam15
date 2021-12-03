@@ -1,8 +1,4 @@
-// maybe i should make these functions below asynchronous?
-
-// in each of these functions
-// I have to add a logic that fetches a new set of tips
-
+// generates three random numbers based on the argument's(an array) values
 const getThreeRandomNums = (arr) => {
   let newTipIds = [];
   let randomNumRecords = [];
@@ -15,11 +11,10 @@ const getThreeRandomNums = (arr) => {
       i++;
     }
   }
-  // console.log(arr)
   return newTipIds;
 }
 
-// getting tips with no filter applied
+// gets tips with no filter applied
 function getAnyTips() {
   let tipArrToDisplay = [];
   db.collection("tips").get().then(allTips => {
@@ -39,7 +34,7 @@ function getAnyTips() {
   })
 }
 
-// getting tips filtered by categories
+// gets tips filtered by categories
 function filterTips1(personalPref) {
   let tipArrToDisplay = [];
   db.collection("tips")
@@ -60,8 +55,7 @@ function filterTips1(personalPref) {
     })
 }
 
-// not working
-// getting tips filtered by time
+// gets tips filtered by time
 function filterTips2(personalPref) {
   let tipArrToDisplay = [];
   db.collection("tips")
@@ -78,13 +72,11 @@ function filterTips2(personalPref) {
           tipArrToDisplay.push(tip);
         }
       })
-
-      // passing the filtered tip array to the function
       insertTips(tipArrToDisplay);
     })
 }
 
-// getting tips filtered by type
+// gets tips filtered by type
 function filterTips3(personalPref) {
   console.log(personalPref)
   let tipArrToDisplay = [];
@@ -129,8 +121,7 @@ function filterTips4(personalPref) {
     })
 }
 
-// not working
-// getting tips filtered by categories and time
+// gets tips filtered by categories and time
 function filterTips5(personalPref) {
   let tipArrToDisplay = [];
   db.collection("tips")
@@ -152,7 +143,7 @@ function filterTips5(personalPref) {
     })
 }
 
-// getting tips filtered by type and time
+// gets tips filtered by type and time
 function filterTips6(personalPref) {
   console.log(personalPref)
   let tipArrToDisplay = [];
@@ -177,7 +168,6 @@ function filterTips6(personalPref) {
 
 // filtering tips with all the fields
 function filterTips7(personalPref) {
-  // console.log(personalPref);
   let tipArrToDisplay = [];
   db.collection("tips")
     .where("type", "==", personalPref[0])

@@ -39,13 +39,11 @@ through the settings icon
 
 
 It has the following subfolders and files:
-├── .git            # Folder for git repo
-├── images          # Folder for images
+├── .git                # Folder for git repo
+├── images              # Folder for images
         /avatar.jpg
         /background.jpg
         /DAILY_DOSE.png
-        /mindfuliness.jpg
-        /pexels-jot-2179483.jpg
         /smoothie.jpg
         /tip1jpg
         /tip2.jpg
@@ -86,12 +84,12 @@ It has the following subfolders and files:
         /firebase_api.js        # firebase API stuff, shared across pages
 
 ├── styles          # Folder for styles
-        /details.css		# style for details.html
-        /index.css		    # base style for all the html files
-        /main.css		    # style for main.html
-        /profile.css		# style for profile.html
-        /progres.css		# style for progress.html
-        /settings.css		# style for settings.html
+        /details.css		    # style for details.html
+        /index.css		        # base style for all the html files
+        /main.css		        # style for main.html
+        /profile.css		    # style for profile.html
+        /progres.css		    # style for progress.html
+        /settings.css		    # style for settings.html
 
 
 Firebase hosting files: 

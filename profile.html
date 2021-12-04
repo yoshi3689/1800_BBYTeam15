@@ -12,7 +12,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
     <link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/4.8.1/firebase-ui-auth.css" />
-    <link class="logo" href="/images/DAILY_DOSE.png" rel="icon" type="image/x-icon" />
+    <link class="logo" href="/images/daily_dose.png" rel="icon" type="image/x-icon" />
 
     <!-- Firebase 8 CDNs-->
     <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> -->
@@ -23,13 +23,11 @@
     <script src="https://www.gstatic.com/firebasejs/8.2.9/firebase-storage.js"></script>
 
     <!-- Link to the api keys for your firebase project -->
-    <script src="../scripts/firebaseAPI.js"></script>
-
+    <script src="scripts/firebase_api.js"></script>
+ 
     <!-- Optional styles -->
     <link type="text/css" href="/styles/index.css" rel="stylesheet">
     <link type="text/css" href="/styles/profile.css" rel="stylesheet">
-    <!-- <link type="text/css" href="../styles/my_style.css"> -->
-
 </head>
 
 <body class="overflow-auto">
@@ -91,7 +89,7 @@
         <ol id="insert-top-3-here">
         </ol>
         <br />
-        <a href="progressList.html" class="btn w-25 btn-info m-auto">See All</a>
+        <a href="progress.html" class="btn w-25 btn-info m-auto">See All</a>
         <br />
     </div>
     <br />
@@ -100,42 +98,43 @@
         <h2 class="fs-4 text-center">Preferences</h2>
         <br />
         <div class="btn-group pref_set1" role="group" aria-label="Basic radio toggle button group">
-            <input type="radio" class="btn-check" name="btnradioS1" id="btnradio1" autocomplete="off">
+            <input type="radio" class="btn-check" name="btnradioS1" id="btnradio1">
             <label class="btn btn-outline-light" id="pref_label1" for="btnradio1">Anywhere</label>
 
-            <input type="radio" class="btn-check" name="btnradioS1" id="btnradio2" autocomplete="off">
+            <input type="radio" class="btn-check" name="btnradioS1" id="btnradio2">
             <label class="btn btn-outline-light" id="pref_label2" for="btnradio2">Indoor</label>
 
-            <input type="radio" class="btn-check" name="btnradioS1" id="btnradio3" autocomplete="off">
+            <input type="radio" class="btn-check" name="btnradioS1" id="btnradio3">
             <label class="btn btn-outline-light" id="pref_label3" for="btnradio3">Outdoor</label>
         </div>
         <br />
         <br />
         <div class="btn-group pref_set2" role="group" aria-label="Basic radio toggle button group">
-            <input type="radio" class="btn-check" name="btnradioS2" id="btnradio4" autocomplete="off">
+            <input type="radio" class="btn-check" name="btnradioS2" id="btnradio4">
             <label class="btn btn-outline-light" id="pref_label4" for="btnradio4">Both</label>
 
-            <input type="radio" class="btn-check" name="btnradioS2" id="btnradio5" autocomplete="off">
+            <input type="radio" class="btn-check" name="btnradioS2" id="btnradio5">
             <label class="btn btn-outline-light" id="pref_label5" for="btnradio5">Physical</label>
 
-            <input type="radio" class="btn-check" name="btnradioS2" id="btnradio6" autocomplete="off">
+            <input type="radio" class="btn-check" name="btnradioS2" id="btnradio6">
             <label class="btn btn-outline-light" id="pref_label6" for="btnradio6">Mental</label>
         </div>
         <br />
         <br />
         <div class="btn-group pref_set3" role="group" aria-label="Basic radio toggle button group">
-            <input type="radio" class="btn-check" name="btnradioS3" id="btnradio7" autocomplete="off">
+            <input type="radio" class="btn-check" name="btnradioS3" id="btnradio7">
             <label class="btn btn-outline-light" id="pref_label7" for="btnradio7">Any</label>
 
-            <input type="radio" class="btn-check" name="btnradioS3" id="btnradio8" autocomplete="off">
+            <input type="radio" class="btn-check" name="btnradioS3" id="btnradio8">
             <label class="btn btn-outline-light" id="pref_label8" for="btnradio8">5 Minutes</label>
 
-            <input type="radio" class="btn-check" name="btnradioS3" id="btnradio9" autocomplete="off">
+            <input type="radio" class="btn-check" name="btnradioS3" id="btnradio9">
             <label class="btn btn-outline-light" id="pref_label9" for="btnradio9">10 Minutes</label>
         </div>
     </div>
-    <script src="../scripts/our_scripts/profile.js"></script>
-    <script src="../scripts/universal_functions/backPage.js"></script>
+    
+    <script src="scripts/our_scripts/profile.js"></script>
+    <script src="scripts/universal_functions/back_page.js"></script>
 </body>
 
 </html>
